@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">СмартЛаб</string>
+
+    <string name="skip">Пропустить</string>
+    <string name="analyzes">Анализы</string>
+    <string name="text_onboard_1">Экспресс сбор и получение проб</string>
+    <string name="notifications">Уведомления</string>
+    <string name="text_onboard_2">Вы быстро узнаете о результатах</string>
+    <string name="monitoring">Мониторинг</string>
+    <string name="text_onboard_3">Наши врачи всегда наблюдают\nза вашими показателями здоровья</string>
+</resources>

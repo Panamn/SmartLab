@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SmartLab</string>
+
+    <string name="skip">Skip</string>
+    <string name="analyzes">Analyzes</string>
+    <string name="text_onboard_1">Express collection and receipt of samples</string>
+    <string name="notifications">Notifications</string>
+    <string name="text_onboard_2">You will learn about the results quickly</string>
+    <string name="monitoring">Monitoring</string>
+    <string name="text_onboard_3">Our doctors are always monitoring\nyour health indicators</string>
+</resources>
