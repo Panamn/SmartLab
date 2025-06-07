@@ -3,7 +3,45 @@
     <style name="Base.Theme.SmartLab" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="materialButtonStyle">@style/ButtonStyle</item>
     </style>
 
     <style name="Theme.SmartLab" parent="Base.Theme.SmartLab" />
+
+    <style name="SearchEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/search_background</item>
+        <item name="android:hint">Поиск</item>
+        <item name="android:textColorHint">#808080</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="BlueButtonStyle" parent="ButtonStyle">
+        <item name="android:background">@drawable/blue_button_background</item>
+    </style>
+
+    <style name="GrayButtonStyle" parent="ButtonStyle">
+        <item name="android:textColor">@color/gray_text</item>
+        <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+    <style name="BlueButtonStyleRadiusDelete" parent="ButtonStyle">
+        <item name="android:textColor">@color/blue_button</item>
+        <item name="android:background">@drawable/blue_button_background_radius</item>
+    </style>
+    <style name="BlackButtonStyleProfile" parent="ButtonStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/black_button_profile</item>
+    </style>
 </resources>

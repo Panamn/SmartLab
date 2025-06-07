@@ -9,4 +9,23 @@
     <string name="text_onboard_2">Вы быстро узнаете о результатах</string>
     <string name="monitoring">Мониторинг</string>
     <string name="text_onboard_3">Наши врачи всегда наблюдают\nза вашими показателями здоровья</string>
+
+    <string name="search">Поиск</string>
+    <string name="text_home_news">Акции и новости</string>
+    <string name="doctors">Врачи</string>
+    <string name="text_item_button_add">Добавить</string>
+    <string name="text_item_button_remove">Убрать</string>
+    <string name="text_item_button_sign_up">Записаться</string>
+
+    <string name="text_analyzes_catalog">Каталог анализов</string>
+    <string name="text_doctors_catalog">Каталог специальностей</string>
+
+    <string name="text_profile_medical_card">Медкарта</string>
+    <string name="text_profile_analysis_results">Результаты анализов</string>
+    <string name="text_profile_make_an_appointment">Записи к врачам</string>
+    <string name="text_profile_delivery_addresses">Адреса доставки</string>
+
+    <string name="record">Записи</string>
+    <string name="basket">Корзина</string>
+    <string name="profile">Профиль</string>
 </resources>

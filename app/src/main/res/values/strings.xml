@@ -8,4 +8,23 @@
     <string name="text_onboard_2">You will learn about the results quickly</string>
     <string name="monitoring">Monitoring</string>
     <string name="text_onboard_3">Our doctors are always monitoring\nyour health indicators</string>
+
+    <string name="search">Search</string>
+    <string name="text_home_news">Promotions and news</string>
+    <string name="doctors">Doctors</string>
+    <string name="text_item_button_add">Add</string>
+    <string name="text_item_button_remove">Remove</string>
+    <string name="text_item_button_sign_up">Sign Up</string>
+
+    <string name="text_analyzes_catalog">Catalog of analyses</string>
+    <string name="text_doctors_catalog">Specialty catalog</string>
+
+    <string name="text_profile_medical_card">Medical card</string>
+    <string name="text_profile_analysis_results">Analysis results</string>
+    <string name="text_profile_make_an_appointment">Appointments with doctors</string>
+    <string name="text_profile_delivery_addresses">Delivery addresses</string>
+
+    <string name="record">Record</string>
+    <string name="basket">Basket</string>
+    <string name="profile">Profile</string>
 </resources>

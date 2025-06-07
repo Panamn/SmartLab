@@ -4,5 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green_onboard">#00B712</color>
     <color name="gray">#939396</color>
+    <color name="gray_menu">#B7BFCA</color>
     <color name="blue_onboard">#57A9FF</color>
+    <color name="blue_button">#1A6EEC</color>
+    <color name="blue_text">#1A6EEC</color>
+    <color name="blue_profile">#D7E9FD</color>
+    <color name="white_button">#FFFFFFFF</color>
+
+    <color name="blue_primary">#1A6EEC</color>
+    <color name="blue_pressed">#1A6EEC</color>
+    <color name="gray_primary">#EEEEEE</color>
+    <color name="gray_text">#757575</color>
 </resources>
