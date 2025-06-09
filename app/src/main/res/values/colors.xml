@@ -13,6 +13,7 @@
 
     <color name="blue_primary">#1A6EEC</color>
     <color name="blue_pressed">#1A6EEC</color>
+    <color name="blue_button_off">#C7D2F9</color>
     <color name="gray_primary">#EEEEEE</color>
     <color name="gray_text">#757575</color>
 </resources>

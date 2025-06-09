@@ -24,7 +24,7 @@ public class Onboard2Activity extends AppCompatActivity {
         buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Onboard2Activity.this, MainActivity.class));
+                startActivity(new Intent(Onboard2Activity.this, LoginActivity.class));
             }
         });
         button_onboard1 = (ImageButton) findViewById(R.id.button_onboard1);

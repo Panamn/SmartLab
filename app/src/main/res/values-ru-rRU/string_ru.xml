@@ -28,4 +28,24 @@
     <string name="record">Записи</string>
     <string name="basket">Корзина</string>
     <string name="profile">Профиль</string>
+
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="text_login_1">Войдите, чтобы пользоваться функциями приложения</string>
+    <string name="email">E-mail</string>
+    <string name="email2">example@mail.ru</string>
+    <string name="password">Пароль</string>
+    <string name="password2">пароль</string>
+    <string name="password_forgot">Забыли пароль?</string>
+    <string name="text_further">Далее</string>
+    <string name="password_repeat">Повторно пароль</string>
+    <string name="password_repeat_2">повторно пароль</string>
+    <string name="text_registration_1">Зарегистрируйтесь, чтобы пользоваться функциями приложения</string>
+
+    <string name="create_pin">Создайте пин-код</string>
+    <string name="create_pin_text">Для защиты ваших персональных данных</string>
+
+    <string name="input_pin">Введите пин-код</string>
+
+    <string name="text_email_code_1">Введите код из E-mail</string>
+    <string name="text_email_code_2">Отправить код повторно можно \n будет через {n} секунд</string>
 </resources>

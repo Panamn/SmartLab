@@ -27,4 +27,24 @@
     <string name="record">Record</string>
     <string name="basket">Basket</string>
     <string name="profile">Profile</string>
+
+    <string name="welcome">Welcome!</string>
+    <string name="text_login_1">Log in to use the app\'s features</string>
+    <string name="email">E-mail</string>
+    <string name="email2">example@mail.ru</string>
+    <string name="password">Password</string>
+    <string name="password2">password</string>
+    <string name="password_forgot">Forgot your password?</string>
+    <string name="text_further">Further</string>
+    <string name="password_repeat">Repeat password</string>
+    <string name="password_repeat_2">repeat password</string>
+    <string name="text_registration_1">Register to use the app\'s features</string>
+
+    <string name="create_pin">Create a PIN code</string>
+    <string name="create_pin_text">To protect your personal data</string>
+
+    <string name="input_pin">Enter the PIN code</string>
+
+    <string name="text_email_code_1">Enter the code from the E-mail</string>
+    <string name="text_email_code_2">You can send the code again \n it will be in {n} seconds</string>
 </resources>

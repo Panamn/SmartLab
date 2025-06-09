@@ -103,12 +103,12 @@
         </TableRow>
     </TableLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAnalyzes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="40dp"
-        android:background="@color/gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Table1" />
