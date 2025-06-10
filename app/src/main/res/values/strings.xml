@@ -47,4 +47,24 @@
 
     <string name="text_email_code_1">Enter the code from the E-mail</string>
     <string name="text_email_code_2">You can send the code again \n it will be in {n} seconds</string>
+
+    <string name="text_validate_1">Email is required</string>
+    <string name="text_validate_2">Please enter a valid email</string>
+    <string name="text_validate_3">Password is required</string>
+    <string name="text_validate_4">Password must be at least 6 characters</string>
+    <string name="text_validate_5">User not found. Please check your credentials</string>
+
+    <string name="text_validate1">Email is required</string>
+    <string name="text_validate2">Please enter a valid email</string>
+    <string name="text_validate3">Password is required</string>
+    <string name="text_validate4">Password must be at least 8 characters</string>
+    <string name="text_validate5">Password must contain at least one uppercase letter</string>
+    <string name="text_validate6">Password must contain at least one lowercase letter</string>
+    <string name="text_validate7">Password must contain at least one number</string>
+    <string name="text_validate8">Please confirm your password</string>
+    <string name="text_validate9">Passwords don\'t match</string>
+
+    <string name="text_pin_wrong">Incorrect Pin. Try again</string>
+    <string name="text_pin_dont">PINs don\'t match. Try again</string>
+    <string name="text_pin_сonfirm">Confirm your PIN</string>
 </resources>

@@ -42,11 +42,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".CreatePinActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".InputPinActivity"
+            android:name=".PinActivity"
             android:exported="true">
         </activity>
         <activity

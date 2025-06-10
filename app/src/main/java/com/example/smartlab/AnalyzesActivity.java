@@ -34,6 +34,7 @@ public class AnalyzesActivity extends AppCompatActivity {
         ImageButClickMenu();
         // TODO
         DataBinding.saveBearerToken("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVib3R4ZHZraHZ1c3ltYmhyZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MTc2MDIsImV4cCI6MjA2NDQ5MzYwMn0.mbxaS4NKcoSrNfFbF89g7MXpD1zvVjCXxiOGpOS_BeE");
+        DataBinding.saveUuidUser("3e4f9dd5-3111-4b60-92e2-ddb1124578c9");
         // TODO
         getAllAnalyzes();
 
