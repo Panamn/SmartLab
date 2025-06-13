@@ -6,6 +6,7 @@
     android:paddingRight="20dp"
     android:paddingLeft="20dp"
     android:paddingTop="40dp"
+    android:id="@+id/constraintLayout"
     android:paddingBottom="20dp">
     <Button
         android:id="@+id/ButtonSkip"
@@ -14,7 +15,7 @@
         android:text="@string/skip"
         android:gravity="left|center"
         android:textSize="15sp"
-        android:textColor="@color/blue_onboard"
+        android:textColor="@color/blue_button"
         style="@style/Widget.AppCompat.Button.Borderless"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -54,22 +55,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextViewAnalyzes">
-        <ImageButton
-            android:id="@+id/button_onboard1"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ellipse_onboard_1"
             android:layout_margin="5dp"
             />
-        <ImageButton
-            android:id="@+id/button_onboard2"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ellipse_onboard_2"
             android:layout_margin="5dp"
             />
-        <ImageButton
-            android:id="@+id/button_onboard3"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ellipse_onboard_2"

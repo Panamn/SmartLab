@@ -3,6 +3,8 @@ package com.example.smartlab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
+import com.example.smartlab.Adapters.AnalyzesCategoriesAdapter;
 import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Models.CategoriesAnalyzes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,7 +26,8 @@ import java.util.List;
 
 public class AnalyzesActivity extends AppCompatActivity {
 
-    RecyclerView recyclerViewAnalyzes;
+    private RecyclerView recyclerViewAnalyzes;
+    private Button buttonCategoriesAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +35,15 @@ public class AnalyzesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_analyzes);
         recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
+        buttonCategoriesAll = findViewById(R.id.buttonCategoriesAll);
+        buttonCategoriesAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AnalyzesActivity.this, CategoriesAnalyzes.class));
+            }
+        });
         ImageButMenu();
         ImageButClickMenu();
-        // TODO
-        DataBinding.saveBearerToken("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVib3R4ZHZraHZ1c3ltYmhyZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MTc2MDIsImV4cCI6MjA2NDQ5MzYwMn0.mbxaS4NKcoSrNfFbF89g7MXpD1zvVjCXxiOGpOS_BeE");
-        DataBinding.saveUuidUser("3e4f9dd5-3111-4b60-92e2-ddb1124578c9");
-        // TODO
         getAllAnalyzes();
 
     }

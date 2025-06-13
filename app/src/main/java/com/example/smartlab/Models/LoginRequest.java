@@ -1,8 +1,8 @@
 package com.example.smartlab.Models;
 
 public class LoginRequest {
-        private String email;
-        public String password;
+    private String email;
+    private String password;
 
     public LoginRequest(String email, String password) {
         this.email = email;

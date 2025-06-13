@@ -1,17 +1,16 @@
 package com.example.smartlab.Models;
 
 public class Role {
-    private String name;
-
-    public Role( String name) {
-        this.name = name;
+    private int id;
+    public Role( int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class ProfileUpdate {
     private String full_name;
+    private int role;
 
 
-    public ProfileUpdate( String full_name) {
+    public ProfileUpdate(String full_name, int role) {
         this.full_name = full_name;
-
-//        this.role = role;
+        this.role = role;
 
     }
 
@@ -20,15 +20,12 @@ public class ProfileUpdate {
     public void setFull_name(String full_name) {
         this.full_name = full_name;
     }
+    public int getRole() {
+        return role;
+    }
 
-
-
-//    public Role getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(Role role) {
-//        this.role = role;
-//    }
+    public void setRole(int role) {
+        this.role = role;
+    }
 
 }

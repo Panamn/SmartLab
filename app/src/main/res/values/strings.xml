@@ -2,6 +2,7 @@
     <string name="app_name">SmartLab</string>
 
     <string name="skip">Skip</string>
+    <string name="complete">Complete</string>
     <string name="analyzes">Analyzes</string>
     <string name="text_onboard_1">Express collection and receipt of samples</string>
     <string name="notifications">Notifications</string>
@@ -17,6 +18,7 @@
     <string name="text_item_button_sign_up">Sign Up</string>
 
     <string name="text_analyzes_catalog">Catalog of analyses</string>
+    <string name="text_analyzes_catalog_all">All categories of analyses</string>
     <string name="text_doctors_catalog">Specialty catalog</string>
 
     <string name="text_profile_medical_card">Medical card</string>
@@ -35,6 +37,8 @@
     <string name="password">Password</string>
     <string name="password2">password</string>
     <string name="password_forgot">Forgot your password?</string>
+    <string name="no_account">No account?</string>
+    <string name="yes_account">Do you have an account?</string>
     <string name="text_further">Further</string>
     <string name="password_repeat">Repeat password</string>
     <string name="password_repeat_2">repeat password</string>
@@ -63,8 +67,28 @@
     <string name="text_validate7">Password must contain at least one number</string>
     <string name="text_validate8">Please confirm your password</string>
     <string name="text_validate9">Passwords don\'t match</string>
+    <string name="text_validate10">Enter a name</string>
+    <string name="text_validate11">Enter your last name</string>
+    <string name="text_validate12">Enter your date of birth</string>
 
     <string name="text_pin_wrong">Incorrect Pin. Try again</string>
     <string name="text_pin_dont">PINs don\'t match. Try again</string>
     <string name="text_pin_сonfirm">Confirm your PIN</string>
+
+    <string-array name="gender_options">
+        <item>man</item>
+        <item>woman</item>
+    </string-array>
+    <string name="gender_man">man</string>
+
+    <string name="profile_card_name">Patient\'s card</string>
+    <string name="profile_card_name_1">Name</string>
+    <string name="profile_card_name_2">Middle name</string>
+    <string name="profile_card_name_3">Surname</string>
+    <string name="profile_card_name_4">Date of birth</string>
+    <string name="profile_card_name_5">Gender</string>
+    <string name="profile_card_name_6_button">Save</string>
+    <string name="card_name_save">Creating a patient\ncard</string>
+    <string name="card_text_1">You will not be able to order tests without\na patient\'s card.</string>
+    <string name="card_text_2">The results of the tests of you and your loved ones will be stored in the patient\'s records.</string>
 </resources>

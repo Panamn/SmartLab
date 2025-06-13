@@ -1,6 +1,7 @@
 package com.example.smartlab;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText, repeatPasswordEditText;
     private Button registrationButton;
     private ASession aSession;
+    private TextView loginText;
     private boolean emailValid = false;
     private boolean passwordValid = false;
     private boolean passwordMatchValid = false;
@@ -43,6 +45,7 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         repeatPasswordEditText = findViewById(R.id.repeatPasswordEditText);
         registrationButton = findViewById(R.id.registrationButton);
+        loginText = findViewById(R.id.loginText);
 
         registrationButton.setEnabled(false);
 
@@ -91,7 +94,14 @@ public class RegistrationActivity extends AppCompatActivity {
                         emailEditText.getText().toString().trim(),
                         passwordEditText.getText().toString().trim()
                 );
+                SharedPreferences shared= getSharedPreferences("new_user", MODE_PRIVATE);
+                SharedPreferences.Editor editor = shared.edit();
+                editor.putString("entrance", "new_user");
+                editor.apply();
             }
+        });
+        loginText.setOnClickListener(view -> {
+            startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
         });
     }
 
@@ -177,7 +187,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     public void updateProfile(String email){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
-        ProfileUpdate profileUpdate = new ProfileUpdate(email);
+        ProfileUpdate profileUpdate = new ProfileUpdate(email, 2);
         supaBaseClient.updateProfile(profileUpdate, new SupaBaseClient.SBC_Callback() {
             @Override
             public void onFailure(IOException e) {
@@ -206,6 +216,7 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
                     Log.e("registerUser:onFailure", e.getLocalizedMessage());
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.text_validate_5), Toast.LENGTH_LONG).show();
                 });
 
             }
@@ -219,6 +230,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     DataBinding.saveBearerToken("Bearer " + auth.getAccess_token());
                     DataBinding.saveUuidUser(auth.getUser().getId());
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("Data_binding", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("bearer_token", auth.getAccess_token());
+                    editor.putString("uuid_user", auth.getUser().getId());
+                    editor.apply();
 
                     updateProfile(email);
                     ASession.setLoggedIn(true);

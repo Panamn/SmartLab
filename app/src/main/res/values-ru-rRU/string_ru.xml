@@ -3,6 +3,7 @@
     <string name="app_name">СмартЛаб</string>
 
     <string name="skip">Пропустить</string>
+    <string name="complete">Завершить</string>
     <string name="analyzes">Анализы</string>
     <string name="text_onboard_1">Экспресс сбор и получение проб</string>
     <string name="notifications">Уведомления</string>
@@ -18,6 +19,7 @@
     <string name="text_item_button_sign_up">Записаться</string>
 
     <string name="text_analyzes_catalog">Каталог анализов</string>
+    <string name="text_analyzes_catalog_all">Все категории анализов</string>
     <string name="text_doctors_catalog">Каталог специальностей</string>
 
     <string name="text_profile_medical_card">Медкарта</string>
@@ -36,6 +38,8 @@
     <string name="password">Пароль</string>
     <string name="password2">пароль</string>
     <string name="password_forgot">Забыли пароль?</string>
+    <string name="no_account">Нет аккаунта?</string>
+    <string name="yes_account">Есть аккаунт?</string>
     <string name="text_further">Далее</string>
     <string name="password_repeat">Повторно пароль</string>
     <string name="password_repeat_2">повторно пароль</string>
@@ -64,8 +68,28 @@
     <string name="text_validate7">Пароль должен содержать хотя бы одну цифру</string>
     <string name="text_validate8">Пожалуйста, подтвердите свой пароль</string>
     <string name="text_validate9">Пароли не совпадают</string>
+    <string name="text_validate10">Введите имя</string>
+    <string name="text_validate11">Введите фамилию</string>
+    <string name="text_validate12">Введите дату рождения</string>
 
     <string name="text_pin_wrong">Неправильный Пин-код. Попробуйте снова</string>
     <string name="text_pin_dont">Пин-коды не совпадают. Попробуйте снова</string>
     <string name="text_pin_сonfirm">Подтвердите свой PIN-код</string>
+
+    <string-array name="gender_options">
+        <item>мужской</item>
+        <item>женский</item>
+    </string-array>
+    <string name="gender_man">мужской</string>
+
+    <string name="profile_card_name">Карта пациента</string>
+    <string name="profile_card_name_1">Имя</string>
+    <string name="profile_card_name_2">Отчество</string>
+    <string name="profile_card_name_3">Фамилия</string>
+    <string name="profile_card_name_4">Дата рождения</string>
+    <string name="profile_card_name_5">Пол</string>
+    <string name="profile_card_name_6_button">Сохранить</string>
+    <string name="card_name_save">Создание карты\nпациента</string>
+    <string name="card_text_1">Без карты пациента вы не сможете заказать\nанализы.</string>
+    <string name="card_text_2">В картах пациентов будут храниться результаты анализов вас и ваших близких.</string>
 </resources>

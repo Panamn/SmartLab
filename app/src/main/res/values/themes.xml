@@ -1,8 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="Base.Theme.SmartLab" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="materialButtonStyle">@style/ButtonStyle</item>
     </style>
 
@@ -10,7 +7,7 @@
 
     <style name="SearchEditText" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/search_background</item>
-        <item name="android:hint">Поиск</item>
+        <item name="android:hint">@string/search</item>
         <item name="android:textColorHint">#808080</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
@@ -40,6 +37,10 @@
         <item name="android:textColor">@color/blue_button</item>
         <item name="android:background">@drawable/blue_button_background_radius</item>
     </style>
+    <style name="BlueButtonOff" parent="ButtonStyle">
+        <item name="android:textColor">@color/blue_button</item>
+        <item name="android:background">@drawable/blue_button_background_off</item>
+    </style>
     <style name="BlackButtonStyleProfile" parent="ButtonStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/black_button_profile</item>
@@ -48,6 +49,14 @@
         <item name="android:background">@drawable/black_item_style</item>
     </style>
     <style name="PinButton">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@drawable/pin_button_background</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="PinButtonOn">
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">80dp</item>
         <item name="android:layout_margin">8dp</item>

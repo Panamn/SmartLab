@@ -50,10 +50,6 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".EmailCodeActivity"
-            android:exported="true">
-        </activity>
-        <activity
             android:name=".AnalyzesActivity"
             android:exported="true">
         </activity>
@@ -73,7 +69,26 @@
             android:name=".MainActivity"
             android:exported="true">
         </activity>
-
+        <activity
+            android:name=".EmailInputActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".CodeInputActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".NewPasswordActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ProfileCardActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EditCardActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

@@ -1,8 +1,11 @@
 package com.example.smartlab;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,8 +39,16 @@ public class PinActivity extends AppCompatActivity {
                 findViewById(R.id.dot4)
         };
 
+        SharedPreferences sharedPreferences = getSharedPreferences("Data_binding", MODE_PRIVATE);
+        String bearertoken = sharedPreferences.getString("bearer_token", "default_value");
+        DataBinding.saveBearerToken("Bearer " +  bearertoken);
+        String uuidUser = sharedPreferences.getString("uuid_user", "default_value");
+        DataBinding.saveUuidUser(uuidUser);
+
         SharedPreferences prefs = getSharedPreferences(PIN, MODE_PRIVATE);
         String savePin = prefs.getString(KEY_PIN, null);
+
+
 
         if (savePin == null) {
             isCreatingNewPin = true;
@@ -49,28 +60,65 @@ public class PinActivity extends AppCompatActivity {
         setupNumberButtons();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupNumberButtons() {
         int[] buttonIds = {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
                 R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
 
         for (int id : buttonIds) {
-            findViewById(id).setOnClickListener(v -> {
-                Button btn = (Button) v;
-                if (enteredPin.length() < PIN_LENGTH) {
-                    enteredPin.append(btn.getText());
-                    updateDots();
-
-                    if (enteredPin.length() == PIN_LENGTH) {
-                        checkPin();
+            Button btn = findViewById(id);
+            btn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.setBackgroundResource(R.drawable.pin_button_background_on);
+                            btn.setTextColor(getResources().getColor(R.color.white));
+                            return true;
+                        case MotionEvent.ACTION_UP:
+                            v.setBackgroundResource(R.drawable.pin_button_background);
+                            btn.setTextColor(getResources().getColor(R.color.black));
+                            if (enteredPin.length() < PIN_LENGTH) {
+                                enteredPin.append(((Button)v).getText());
+                                updateDots();
+                                if (enteredPin.length() == PIN_LENGTH) {
+                                    checkPin();
+                                }
+                            }
+                            return true;
+                        case MotionEvent.ACTION_CANCEL:
+                            v.setBackgroundResource(R.drawable.pin_button_background);
+                            btn.setTextColor(getResources().getColor(R.color.black));
+                            return true;
                     }
+                    return false;
                 }
             });
         }
 
-        findViewById(R.id.btnDelete).setOnClickListener(v -> {
-            if (enteredPin.length() > 0) {
-                enteredPin.deleteCharAt(enteredPin.length() - 1);
-                updateDots();
+        Button btnDelete = findViewById(R.id.btnDelete);
+        btnDelete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundResource(R.drawable.pin_button_background_on);
+                        btnDelete.setTextColor(getResources().getColor(R.color.white));
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        v.setBackgroundResource(R.drawable.pin_button_background);
+                        btnDelete.setTextColor(getResources().getColor(R.color.black));
+                        if (enteredPin.length() > 0) {
+                            enteredPin.deleteCharAt(enteredPin.length() - 1);
+                            updateDots();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_CANCEL:
+                        v.setBackgroundResource(R.drawable.pin_button_background);
+                        btnDelete.setTextColor(getResources().getColor(R.color.black));
+                        return true;
+                }
+                return false;
             }
         });
     }
@@ -128,7 +176,14 @@ public class PinActivity extends AppCompatActivity {
         }
     }
     private void proceedToMain() {
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
+        SharedPreferences shared= getSharedPreferences("new_user", MODE_PRIVATE);
+        String user = shared.getString("entrance", "default_value");
+        if(user.equals("new_user")){
+            startActivity(new Intent(this, EditCardActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }
     }
 }

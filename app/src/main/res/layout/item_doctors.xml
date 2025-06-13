@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
-        android:id="@+id/ImageDoctors"
+        android:id="@+id/imageDoctorsTextView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:background="@drawable/circle_imageview"
@@ -17,9 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:orientation="vertical"
-        app:layout_constraintLeft_toRightOf="@id/ImageDoctors"
+        app:layout_constraintLeft_toRightOf="@id/imageDoctorsTextView"
         app:layout_constraintTop_toTopOf="parent">
         <TextView
+            android:id="@+id/fullNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -27,6 +28,7 @@
             android:textColor="@color/black"
             android:text="Петров Владимир"/>
         <TextView
+            android:id="@+id/specializationTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -39,9 +41,10 @@
         android:layout_marginLeft="60dp"
         android:orientation="horizontal"
         android:layout_marginTop="30dp"
-        app:layout_constraintLeft_toRightOf="@id/ImageDoctors"
+        app:layout_constraintLeft_toRightOf="@id/imageDoctorsTextView"
         app:layout_constraintTop_toBottomOf="@id/line1">
         <TextView
+            android:id="@+id/priceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
