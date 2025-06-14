@@ -3,9 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_above="@id/custom_menu">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <EditText
@@ -94,6 +99,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="Ортопед" />
             <Button
+                android:id="@+id/buttonSpecializationAll"
                 style="@style/GrayButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,16 +109,20 @@
         </TableRow>
     </TableLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerDoctorsAll"
         android:layout_width="match_parent"
-        android:layout_height="1000dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="40dp"
-        android:background="@color/gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Table1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-    <include layout="@layout/custom_menu" />
+    </androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/custom_menu"
+        layout="@layout/custom_menu"
+        />
 </RelativeLayout>

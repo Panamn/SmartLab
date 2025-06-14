@@ -15,6 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.smartlab.Models.ASession;
 import com.example.smartlab.Models.Profile;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

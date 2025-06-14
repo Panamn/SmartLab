@@ -20,6 +20,7 @@
     <string name="text_analyzes_catalog">Catalog of analyses</string>
     <string name="text_analyzes_catalog_all">All categories of analyses</string>
     <string name="text_doctors_catalog">Specialty catalog</string>
+    <string name="text_specialization_catalog_all">All specialties</string>
 
     <string name="text_profile_medical_card">Medical card</string>
     <string name="text_profile_analysis_results">Analysis results</string>
@@ -91,4 +92,7 @@
     <string name="card_name_save">Creating a patient\ncard</string>
     <string name="card_text_1">You will not be able to order tests without\na patient\'s card.</string>
     <string name="card_text_2">The results of the tests of you and your loved ones will be stored in the patient\'s records.</string>
+
+    <string name="categories">Category</string>
+    <string name="not_specified">not specified</string>
 </resources>

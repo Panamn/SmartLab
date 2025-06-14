@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smartlab.Models.DataBinding;
+
 public class PinActivity extends AppCompatActivity {
     private static final String PIN = "Pin";
     private static final String KEY_PIN = "saved_pin";
@@ -40,7 +42,7 @@ public class PinActivity extends AppCompatActivity {
         };
 
         SharedPreferences sharedPreferences = getSharedPreferences("Data_binding", MODE_PRIVATE);
-        String bearertoken = sharedPreferences.getString("bearer_token", "default_value");
+        String bearertoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVib3R4ZHZraHZ1c3ltYmhyZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5MTc2MDIsImV4cCI6MjA2NDQ5MzYwMn0.mbxaS4NKcoSrNfFbF89g7MXpD1zvVjCXxiOGpOS_BeE";
         DataBinding.saveBearerToken("Bearer " +  bearertoken);
         String uuidUser = sharedPreferences.getString("uuid_user", "default_value");
         DataBinding.saveUuidUser(uuidUser);

@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,10 +16,11 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smartlab.Models.ASession;
 import com.example.smartlab.Models.AuthResponse;
+import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.LoginRequest;
 import com.example.smartlab.Models.ProfileUpdate;
-import com.example.smartlab.Models.Role;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -233,7 +233,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPreferences = getSharedPreferences("Data_binding", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("bearer_token", auth.getAccess_token());
                     editor.putString("uuid_user", auth.getUser().getId());
                     editor.apply();
 

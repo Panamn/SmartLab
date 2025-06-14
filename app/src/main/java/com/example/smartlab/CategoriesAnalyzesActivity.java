@@ -24,36 +24,28 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class AnalyzesActivity extends AppCompatActivity {
+public class CategoriesAnalyzesActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewAnalyzes;
-    private Button buttonCategoriesAll;
+    private RecyclerView recyclerViewAnalyzesAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_analyzes);
-        recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
-        buttonCategoriesAll = findViewById(R.id.buttonCategoriesAll);
-        buttonCategoriesAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AnalyzesActivity.this, CategoriesAnalyzesActivity.class));
-            }
-        });
+        setContentView(R.layout.activity_categories_analyzes);
+        recyclerViewAnalyzesAll = findViewById(R.id.recyclerViewAnalyzesAll);
         ImageButMenu();
         ImageButClickMenu();
-        getAllAnalyzes();
+        getCategoriesAllAnalyzes();
 
     }
-    private void getAllAnalyzes(){
+    private void getCategoriesAllAnalyzes(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
-        supaBaseClient.fetchAllAnalyzes(new SupaBaseClient.SBC_Callback() {
+        supaBaseClient.fetchCategoriesAllAnalyzes(new SupaBaseClient.SBC_Callback() {
             @Override
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
-                    Log.e("getAllAnalyzes:onFailure", e.getLocalizedMessage());
+                    Log.e("getCategoriesAllAnalyzes:onFailure", e.getLocalizedMessage());
                 });
 
             }
@@ -61,17 +53,18 @@ public class AnalyzesActivity extends AppCompatActivity {
             @Override
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
-                    Log.e("getAllAnalyzes:onResponse", responseBody);
+                    Log.e("getCategoriesAllAnalyzes:onResponse", responseBody);
                     Gson gson = new Gson();
-                    Type type = new TypeToken<List<Analyzes>>(){}.getType();
-                    List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
-                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList);
-                    recyclerViewAnalyzes.setAdapter(analyzesAdapter);
-                    recyclerViewAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    Type type = new TypeToken<List<CategoriesAnalyzes>>(){}.getType();
+                    List<CategoriesAnalyzes> categoriesAnalyzesList = gson.fromJson(responseBody, type);
+                    AnalyzesCategoriesAdapter analyzesCategoriesAdapter = new AnalyzesCategoriesAdapter(getApplicationContext(), categoriesAnalyzesList);
+                    recyclerViewAnalyzesAll.setAdapter(analyzesCategoriesAdapter);
+                    recyclerViewAnalyzesAll.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 });
             }
         });
     }
+
     private void ImageButMenu(){
         ImageButton AnalyzesButtonMenu = findViewById(R.id.AnalyzesButtonMenu);
         TextView TextAnalyzesButtonMenu = findViewById(R.id.TextAnalyzesButtonMenu);
@@ -94,3 +87,4 @@ public class AnalyzesActivity extends AppCompatActivity {
         ProfileButtonMenu.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
     }
 }
+

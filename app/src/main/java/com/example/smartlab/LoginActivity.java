@@ -2,7 +2,6 @@ package com.example.smartlab;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,7 +16,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smartlab.Models.ASession;
 import com.example.smartlab.Models.AuthResponse;
+import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.LoginRequest;
 import com.google.gson.Gson;
 
@@ -160,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPreferences = getSharedPreferences("Data_binding", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("bearer_token", auth.getAccess_token());
                     editor.putString("uuid_user", auth.getUser().getId());
                     editor.apply();
 

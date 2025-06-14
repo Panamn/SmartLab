@@ -1,18 +1,46 @@
 package com.example.smartlab.Models;
 
-public class Doctors{
-    public int id_specialization;
-    public int experience;
-    public float rating;
-    public int price_of_admission;
-    public String  about_doctor;
-    public String id_profile;
+import com.google.gson.annotations.SerializedName;
 
-    public int getId_specialization() {
+public class Doctors{
+    @SerializedName("specialization_categories")
+    private Specialization specializationCategories;
+    @SerializedName("id_specialization")
+    private String  id_specialization;
+    private int experience;
+    private float rating;
+    private int price_of_admission;
+    private String  about_doctor;
+    @SerializedName("id_profile")
+    private String id_profile;
+    @SerializedName("profiles")
+    private Profiles profile;
+
+    public Doctors(Specialization specializationCategories, String id_specialization, int experience, float rating, int price_of_admission, String about_doctor, String id_profile, Profiles profile) {
+        this.specializationCategories = specializationCategories;
+        this.id_specialization = id_specialization;
+        this.experience = experience;
+        this.rating = rating;
+        this.price_of_admission = price_of_admission;
+        this.about_doctor = about_doctor;
+        this.id_profile = id_profile;
+        this.profile = profile;
+    }
+
+
+    public Specialization getSpecializationCategories() {
+        return specializationCategories;
+    }
+
+    public void setSpecializationCategories(Specialization specializationCategories) {
+        this.specializationCategories = specializationCategories;
+    }
+
+    public String getId_specialization() {
         return id_specialization;
     }
 
-    public void setId_specialization(int id_specialization) {
+    public void setId_specialization(String id_specialization) {
         this.id_specialization = id_specialization;
     }
 
@@ -54,5 +82,13 @@ public class Doctors{
 
     public void setId_profile(String id_profile) {
         this.id_profile = id_profile;
+    }
+
+    public Profiles getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profiles profile) {
+        this.profile = profile;
     }
 }

@@ -21,6 +21,7 @@
     <string name="text_analyzes_catalog">Каталог анализов</string>
     <string name="text_analyzes_catalog_all">Все категории анализов</string>
     <string name="text_doctors_catalog">Каталог специальностей</string>
+    <string name="text_specialization_catalog_all">Все специальности</string>
 
     <string name="text_profile_medical_card">Медкарта</string>
     <string name="text_profile_analysis_results">Результаты анализов</string>
@@ -92,4 +93,7 @@
     <string name="card_name_save">Создание карты\nпациента</string>
     <string name="card_text_1">Без карты пациента вы не сможете заказать\nанализы.</string>
     <string name="card_text_2">В картах пациентов будут храниться результаты анализов вас и ваших близких.</string>
+
+    <string name="categories">Категория</string>
+    <string name="not_specified">не указана</string>
 </resources>

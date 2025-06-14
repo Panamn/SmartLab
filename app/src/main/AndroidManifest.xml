@@ -89,6 +89,18 @@
             android:name=".EditCardActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".CategoriesAnalyzesActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AnalysesListActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".SpecializationActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

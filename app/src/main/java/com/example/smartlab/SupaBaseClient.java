@@ -1,9 +1,8 @@
 package com.example.smartlab;
 
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 
+import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.LoginRequest;
 import com.example.smartlab.Models.ProfileUpdate;
 import com.example.smartlab.Models.ProfileUpdateCard;
@@ -360,9 +359,102 @@ public class SupaBaseClient {
         });
     }
 
+    public void fetchAllDoctors(final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "doctors?select=*,profiles(*),specialization_categories(*)")
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .addHeader("Content-Type", "application/json")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void fetchAllSpecialization(final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "specialization_categories?select=*")
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
     public void fetchAllAnalyzes(final SBC_Callback callback){
         Request request = new Request.Builder()
-                .url( DOMAIN_NAME + REST_PATH + "analyzes?select=*")
+                .url(DOMAIN_NAME + REST_PATH + "analyzes?select=*")
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void fetchCategoriesAllAnalyzes(final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "categories_of_analyses?select=*")
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void fetchCategoriesListAnalyzes(int id, final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "analyzes?select=*&id_categories_of_analyses=eq." + id)
                 .addHeader("apikey", API_KEY)
                 .addHeader("Authorization", DataBinding.getBearerToken())
                 .build();

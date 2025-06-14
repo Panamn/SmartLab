@@ -6,6 +6,8 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smartlab.Models.ASession;
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 3000;

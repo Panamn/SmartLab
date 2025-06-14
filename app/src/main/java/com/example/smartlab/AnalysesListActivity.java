@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
-import com.example.smartlab.Adapters.AnalyzesCategoriesAdapter;
 import com.example.smartlab.Models.Analyzes;
-import com.example.smartlab.Models.CategoriesAnalyzes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,32 +22,32 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class AnalyzesActivity extends AppCompatActivity {
+public class AnalysesListActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewAnalyzes;
-    private Button buttonCategoriesAll;
-
+    private RecyclerView recyclerViewCategoriesListAnalyzes;
+    private TextView categoryTitleText;
+    private int categoryId;
+    private String categoryTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_analyzes);
-        recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
-        buttonCategoriesAll = findViewById(R.id.buttonCategoriesAll);
-        buttonCategoriesAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AnalyzesActivity.this, CategoriesAnalyzesActivity.class));
-            }
-        });
+        setContentView(R.layout.activity_categories_list_analyses);
+        recyclerViewCategoriesListAnalyzes = findViewById(R.id.recyclerViewCategoriesListAnalyzes);
+        categoryTitleText = findViewById(R.id.categoryTitleText);
+        categoryId = getIntent().getIntExtra("category_id", 0); //-1
+        categoryTitle = getIntent().getStringExtra("category_title");
+
+        categoryTitleText.setText(getString(R.string.categories) + ":\n" + categoryTitle);
+
         ImageButMenu();
         ImageButClickMenu();
-        getAllAnalyzes();
+        getCategoriesListAnalyzes(categoryId);
 
     }
-    private void getAllAnalyzes(){
+    private void getCategoriesListAnalyzes(int categoryId){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
-        supaBaseClient.fetchAllAnalyzes(new SupaBaseClient.SBC_Callback() {
+        supaBaseClient.fetchCategoriesListAnalyzes(categoryId, new SupaBaseClient.SBC_Callback() {
             @Override
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
@@ -66,12 +64,13 @@ public class AnalyzesActivity extends AppCompatActivity {
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
                     List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
                     AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList);
-                    recyclerViewAnalyzes.setAdapter(analyzesAdapter);
-                    recyclerViewAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerViewCategoriesListAnalyzes.setAdapter(analyzesAdapter);
+                    recyclerViewCategoriesListAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 });
             }
         });
     }
+
     private void ImageButMenu(){
         ImageButton AnalyzesButtonMenu = findViewById(R.id.AnalyzesButtonMenu);
         TextView TextAnalyzesButtonMenu = findViewById(R.id.TextAnalyzesButtonMenu);

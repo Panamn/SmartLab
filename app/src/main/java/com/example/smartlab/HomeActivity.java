@@ -2,6 +2,7 @@ package com.example.smartlab;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
+import com.example.smartlab.Adapters.DoctorsAdapter;
 import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Models.Doctors;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,7 +30,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private Button buttonAnalyzes, buttonDoctors;
-    private RecyclerView recyclerAllLab;
+    private RecyclerView recyclerAnalyzes, recyclerDoctors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,39 +40,15 @@ public class HomeActivity extends AppCompatActivity {
 
         buttonAnalyzes = findViewById(R.id.buttonAnalyzes);
         buttonDoctors = findViewById(R.id.buttonDoctors);
-        recyclerAllLab = findViewById(R.id.recyclerAllLab);
-        buttonAllLab();
-        ImageButClickMenu();
-        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
-            if (hasFocus) {
-                v.setSelected(true);
-            } else {
-                v.setSelected(false);
-            }
-        };
-    }
-    private void buttonAllLab(){
-        buttonAnalyzes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonAnalyzes.setTextColor(getResources().getColor(R.color.white));
-                buttonDoctors.setTextColor(getResources().getColor(R.color.gray_text));
-                buttonAnalyzes.setBackgroundResource(R.drawable.blue_button_background);
-                buttonDoctors.setBackgroundResource(R.drawable.gray_button_background);
-                getAllAnalyzes();
-            }
-        });
-        buttonDoctors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonDoctors.setTextColor(getResources().getColor(R.color.white));
-                buttonAnalyzes.setTextColor(getResources().getColor(R.color.gray_text));
-                buttonAnalyzes.setBackgroundResource(R.drawable.gray_button_background);
-                buttonDoctors.setBackgroundResource(R.drawable.blue_button_background);
-            }
-        });
+        recyclerAnalyzes = findViewById(R.id.recyclerAnalyzes);
+        recyclerDoctors = findViewById(R.id.recyclerDoctors);
 
+        buttonAnalyzes.setOnClickListener(view -> getAllAnalyzes());
+        buttonDoctors.setOnClickListener(v -> getAllDoctors());
+        getAllAnalyzes();
+        ImageButClickMenu();
     }
+
     private void getAllAnalyzes(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
         supaBaseClient.fetchAllAnalyzes(new SupaBaseClient.SBC_Callback() {
@@ -84,12 +64,55 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
                     Log.e("getAllAnalyzes:onResponse", responseBody);
+
+                    recyclerAnalyzes.setVisibility(View.VISIBLE);
+                    recyclerDoctors.setVisibility(View.GONE);
+                    buttonAnalyzes.setBackgroundResource(R.drawable.blue_button_background);
+                    buttonAnalyzes.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.white));
+
+                    buttonDoctors.setBackgroundResource(R.drawable.gray_button_background);
+                    buttonDoctors.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.black));
+
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
                     List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
                     AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList);
-                    recyclerAllLab.setAdapter(analyzesAdapter);
-                    recyclerAllLab.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerAnalyzes.setAdapter(analyzesAdapter);
+                    recyclerAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                });
+            }
+        });
+    }
+    private void getAllDoctors(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllDoctors(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctors:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctors:onResponse", responseBody);
+
+                    recyclerDoctors.setVisibility(View.VISIBLE);
+                    recyclerAnalyzes.setVisibility(View.GONE);
+                    buttonDoctors.setBackgroundResource(R.drawable.blue_button_background);
+                    buttonDoctors.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.white));
+
+                    buttonAnalyzes.setBackgroundResource(R.drawable.gray_button_background);
+                    buttonAnalyzes.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.black));
+
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<Doctors>>(){}.getType();
+                    List<Doctors> doctorsList = gson.fromJson(responseBody, type);
+                    DoctorsAdapter doctorsAdapter = new DoctorsAdapter(getApplicationContext(), doctorsList);
+                    recyclerDoctors.setAdapter(doctorsAdapter);
+                    recyclerDoctors.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 });
             }
         });
