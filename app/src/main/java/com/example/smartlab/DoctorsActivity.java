@@ -10,24 +10,32 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
+import com.example.smartlab.Adapters.CategoriesAdapter;
+import com.example.smartlab.Adapters.CategoriesSpecializationAdapter;
 import com.example.smartlab.Adapters.DoctorsAdapter;
+import com.example.smartlab.Adapters.SpecializationAdapter;
 import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Models.CategoriesAnalyzes;
+import com.example.smartlab.Models.Category;
 import com.example.smartlab.Models.Doctors;
+import com.example.smartlab.Models.Specialization;
+import com.example.smartlab.Models.SpecializationCategories;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerDoctorsAll;
-    private Button buttonSpecializationAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,19 +44,48 @@ public class DoctorsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctors);
 
         recyclerDoctorsAll = findViewById(R.id.recyclerDoctorsAll);
-        buttonSpecializationAll = findViewById(R.id.buttonSpecializationAll);
-        buttonSpecializationAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(DoctorsActivity.this, SpecializationActivity.class));
-            }
-        });
 
         getAllDoctors();
         ImageButMenu();
         ImageButClickMenu();
+        getCategoriesAllSpecialization();
 
+    }
+    private void getCategoriesAllSpecialization(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllSpecialization(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAllAnalyzes:onFailure", e.getLocalizedMessage());
+                });
 
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAllAnalyzes:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<SpecializationCategories>>(){}.getType();
+                    List<SpecializationCategories> specializationCategoriesList = gson.fromJson(responseBody, type);
+                    setupCategoriesRecycler(specializationCategoriesList);
+                });
+            }
+        });
+    }
+    private void setupCategoriesRecycler(List<SpecializationCategories> specializationCategoriesList) {
+        List<Specialization> specializations = new ArrayList<>();
+        for (SpecializationCategories specializationCategories : specializationCategoriesList) {
+            specializations.add(new Specialization(
+                    String.valueOf(specializationCategories.getId_specialization_categories()),
+                    specializationCategories.getTitle()
+            ));
+        }
+        RecyclerView recyclerView = findViewById(R.id.categoriesRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        CategoriesSpecializationAdapter adapter = new CategoriesSpecializationAdapter(specializations);
+        recyclerView.setAdapter(adapter);
     }
     private void getAllDoctors(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

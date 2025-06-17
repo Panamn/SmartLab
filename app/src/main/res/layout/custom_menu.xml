@@ -25,6 +25,7 @@
             android:id="@+id/TextAnalyzesButtonMenu"
             android:layout_width="60dp"
             android:layout_height="20dp"
+            android:textSize="12sp"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/gray_menu"
@@ -39,10 +40,10 @@
         android:gravity="center">
         <ImageButton
             android:id="@+id/RecordsButtonMenu"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:src="@drawable/icon_menu_records"
             android:background="@null"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             />
         <TextView
             android:id="@+id/TextRecordsButtonMenu"
@@ -50,6 +51,7 @@
             android:layout_height="20dp"
             android:gravity="center"
             android:textStyle="bold"
+            android:textSize="12sp"
             android:textColor="@color/gray_menu"
             android:text="@string/record"/>
     </LinearLayout>
@@ -77,10 +79,10 @@
         android:gravity="center">
         <ImageButton
             android:id="@+id/BasketButtonMenu"
-            android:layout_width="50dp"
+            android:layout_width="40dp"
             android:src="@drawable/icon_menu_basket"
             android:background="@null"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             />
         <TextView
             android:id="@+id/TextBasketButtonMenu"
@@ -88,6 +90,7 @@
             android:layout_height="20dp"
             android:gravity="center"
             android:textStyle="bold"
+            android:textSize="12sp"
             android:textColor="@color/gray_menu"
             android:text="@string/basket"/>
     </LinearLayout>
@@ -110,6 +113,7 @@
             android:layout_height="20dp"
             android:gravity="center"
             android:textStyle="bold"
+            android:textSize="12sp"
             android:textColor="@color/gray_menu"
             android:text="@string/profile"/>
     </LinearLayout>

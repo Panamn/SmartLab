@@ -24,7 +24,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/shape_plus_splash"/>
+            android:src="@drawable/shape_icons_splash"/>
 
     </LinearLayout>
 

@@ -18,8 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
 import com.example.smartlab.Adapters.DoctorsAdapter;
+import com.example.smartlab.Adapters.NewsAdapter;
 import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.Doctors;
+import com.example.smartlab.Models.PromotionsNews;
+import com.example.smartlab.Models.UpdateBasket;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,10 +31,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.OnItemClickListener{
 
     private Button buttonAnalyzes, buttonDoctors;
-    private RecyclerView recyclerAnalyzes, recyclerDoctors;
+    private RecyclerView recyclerAnalyzes, recyclerDoctors, recyclerViewNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +46,12 @@ public class HomeActivity extends AppCompatActivity {
         buttonDoctors = findViewById(R.id.buttonDoctors);
         recyclerAnalyzes = findViewById(R.id.recyclerAnalyzes);
         recyclerDoctors = findViewById(R.id.recyclerDoctors);
+        recyclerViewNews = findViewById(R.id.recyclerViewNews);
 
         buttonAnalyzes.setOnClickListener(view -> getAllAnalyzes());
         buttonDoctors.setOnClickListener(v -> getAllDoctors());
         getAllAnalyzes();
+        getAllNews();
         ImageButClickMenu();
     }
 
@@ -76,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
                     List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
-                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList);
+                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList, HomeActivity.this);
                     recyclerAnalyzes.setAdapter(analyzesAdapter);
                     recyclerAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 });
@@ -117,6 +123,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    private void getAllNews(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllNews(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctors:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctors:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<PromotionsNews>>(){}.getType();
+                    List<PromotionsNews> promotionsNewsList = gson.fromJson(responseBody, type);
+                    NewsAdapter newsAdapter = new NewsAdapter(getApplicationContext(), promotionsNewsList);
+                    recyclerViewNews.setAdapter(newsAdapter);
+                    recyclerViewNews.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                });
+            }
+        });
+    }
     private void ImageButClickMenu(){
         ImageButton AnalyzesButtonMenu = findViewById(R.id.AnalyzesButtonMenu);
         ImageButton RecordsButtonMenu = findViewById(R.id.RecordsButtonMenu);
@@ -131,4 +162,40 @@ public class HomeActivity extends AppCompatActivity {
         ProfileButtonMenu.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
     }
 
+    @Override
+    public void onItemClick(Analyzes analyzes) {
+
+    }
+
+    @Override
+    public void onAddToCartClick(Analyzes analyzes, boolean addToCart) {
+        String userId = DataBinding.getUuidUser();
+
+        if (addToCart) {
+            updateBasket(analyzes.getId_analyzes(), userId);
+        } else {
+//            removeFromBasket(analyzes.getId_analyzes(), userId);
+        }
+    }
+    public void updateBasket(int id_analyzes, String id_client){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        UpdateBasket updateBasket = new UpdateBasket(id_analyzes, id_client);
+        supaBaseClient.updateBasket(updateBasket, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onResponse", responseBody);
+                });
+            }
+        });
+
+    }
 }

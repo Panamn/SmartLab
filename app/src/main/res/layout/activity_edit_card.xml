@@ -2,14 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:padding="16dp">
+    android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -21,10 +20,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/card_name_save"
                     android:textSize="30sp"
+                    android:layout_marginTop="20dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:gravity="center|left"
-                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="16dp"/>
                 <Button
                     android:id="@+id/buttonSkip"
@@ -105,7 +104,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="10dp"
-
                 android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:background="@drawable/edittext_background"
                 android:layout_marginBottom="24dp"/>

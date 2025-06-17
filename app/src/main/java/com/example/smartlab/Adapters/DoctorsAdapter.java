@@ -1,9 +1,12 @@
 package com.example.smartlab.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.smartlab.DescriptionDoctorsActivity;
 import com.example.smartlab.Models.Doctors;
 import com.example.smartlab.R;
 
@@ -53,6 +57,27 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.ViewHold
                 .placeholder(R.drawable.brock)
                 .error(R.drawable.icon_error)
                 .into(holder.imageDoctorsView);
+        holder.signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DescriptionDoctorsActivity.class);
+                intent.putExtra("doctor_id", doctors.getId_profile());
+                intent.putExtra("doctor_name", doctors.getProfile().getFull_name());
+                intent.putExtra("doctor_specialization", doctors.getSpecializationCategories().getTitle());
+                intent.putExtra("doctor_price", doctors.getPrice_of_admission());
+                intent.putExtra("doctor_photo_url", doctors.getProfile().getAvatar_url());
+                intent.putExtra("doctor_experience", doctors.getExperience());
+                intent.putExtra("doctor_rating", doctors.getRating());
+                intent.putExtra("doctor_about_doctor", doctors.getAbout_doctor());
+                if (context instanceof Activity) {
+                    context.startActivity(intent);
+                } else {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -63,12 +88,14 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageDoctorsView;
         TextView fullNameTextView, specializationTextView, priceTextView;
+        Button signUpButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageDoctorsView = itemView.findViewById(R.id.imageDoctorsView);
             fullNameTextView = itemView.findViewById(R.id.fullNameTextView);
             specializationTextView = itemView.findViewById(R.id.specializationTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
+            signUpButton = itemView.findViewById(R.id.signUpButton);
         }
     }
     public static String[] splitFIO(String fullName) {

@@ -31,6 +31,20 @@
     <string name="record">Записи</string>
     <string name="basket">Корзина</string>
     <string name="profile">Профиль</string>
+    <string name="your_notes">Ваши записи</string>
+
+    <string name="records_text_1">Вы записаны на прием к врачу</string>
+    <string name="records_text_2">ФИО: </string>
+    <string name="records_text_3">Специальность: </string>
+    <string name="records_text_4">Дата и время: </string>
+
+    <string name="text_doctors_description_1">Запись на прием</string>
+    <string name="text_doctors_description_2">лет стажа</string>
+    <string name="text_doctors_description_3">рейтинг</string>
+    <string name="text_doctors_description_4">Обо мне</string>
+    <string name="text_doctors_description_5">Дата и время</string>
+    <string name="text_doctors_description_date_1">Выберите дату</string>
+    <string name="text_doctors_description_date_2">Выберите время</string>
 
     <string name="welcome">Добро пожаловать!</string>
     <string name="text_login_1">Войдите, чтобы пользоваться функциями приложения</string>
@@ -96,4 +110,37 @@
 
     <string name="categories">Категория</string>
     <string name="not_specified">не указана</string>
+
+    <string name="text_filtering">Фильтрация</string>
+    <string name="text_price">Цена, руб.</string>
+    <string name="text_term">Срок выполнения</string>
+    <string name="text_categories">Категории</string>
+
+    <string name="text_from">От</string>
+    <string name="text_before">До</string>
+
+    <string name="text_button_off">Сбросить</string>
+    <string name="text_button_apply">Применить</string>
+
+    <string name="text_description">Описание</string>
+    <string name="text_preparation">Подготовка</string>
+    <string name="text_result">Результаты через:</string>
+    <string name="text_biomaterial">Биоматериал:</string>
+    <string name="text_add">Добавить за</string>
+
+    <string name="text_ru_en">ru</string>
+    <string name="text_today">Сегодня</string>
+    <string name="text_description_time_1">Выберите время приема</string>
+    <string name="text_description_time_2">Подтверждение записи</string>
+    <string name="text_description_time_3">Вы точно хотите записаться на</string>
+    <string name="text_in">в</string>
+    <string name="text_yes">Да</string>
+    <string name="text_description_time_6">записано</string>
+    <string name="text_no">Нет</string>
+
+    <string name="text_sum">Сумма</string>
+    <string name="text_buy_button">Перейти к оформлению заказа</string>
+
+    <string name="text_delete_1">Подтверждение удаления</string>
+    <string name="text_delete_2">Вы уверены, что хотите очистить всю корзину?</string>
 </resources>

@@ -20,7 +20,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:hint="@string/search"
         android:drawableStart="@drawable/search_icon"
         android:drawablePadding="10dp"
@@ -41,27 +43,27 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:text="@string/text_home_news"
             android:textColor="@color/gray"
             android:textSize="20dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RecyclerViewNews"
+            android:id="@+id/recyclerViewNews"
             android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="200dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/gray" />
+            android:layout_marginTop="20dp" />
 
         <LinearLayout
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -71,7 +73,7 @@
             <Button
                 android:id="@+id/buttonAnalyzes"
                 style="@style/BlueButtonStyle"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_marginRight="10dp"
@@ -80,7 +82,7 @@
             <Button
                 android:id="@+id/buttonDoctors"
                 style="@style/GrayButtonStyle"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
@@ -89,6 +91,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line2">
@@ -98,19 +102,15 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
-                android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
                 />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDoctors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
-                android:layout_marginRight="40dp"
                 android:visibility="gone"/>
         </FrameLayout>
     </LinearLayout>

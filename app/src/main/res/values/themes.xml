@@ -29,9 +29,16 @@
         <item name="android:background">@drawable/blue_button_background</item>
     </style>
 
+    <style name="BlueButtonProfile" parent="ButtonStyle">
+        <item name="android:background">@drawable/blue_button_profile</item>
+        <item name="android:textColor">@color/blue_text</item>
+    </style>
     <style name="GrayButtonStyle" parent="ButtonStyle">
         <item name="android:textColor">@color/gray_text</item>
         <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+    <style name="GrayButton" parent="ButtonStyle">
+        <item name="android:background">@drawable/gray_button</item>
     </style>
     <style name="BlueButtonStyleRadiusDelete" parent="ButtonStyle">
         <item name="android:textColor">@color/blue_button</item>
@@ -48,17 +55,12 @@
     <style name="BlackItemStyle">
         <item name="android:background">@drawable/black_item_style</item>
     </style>
-    <style name="PinButton">
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">80dp</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:background">@drawable/pin_button_background</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/black</item>
+    <style name="GrayItemStyle">
+        <item name="android:background">@drawable/black_item_style</item>
     </style>
-    <style name="PinButtonOn">
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">80dp</item>
+    <style name="PinButton">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">90dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="android:background">@drawable/pin_button_background</item>
         <item name="android:textSize">24sp</item>
@@ -75,4 +77,5 @@
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:cursorVisible">false</item>
     </style>
+
 </resources>

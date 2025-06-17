@@ -10,41 +10,263 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartlab.Adapters.AnalyzesAdapter;
 import com.example.smartlab.Adapters.AnalyzesCategoriesAdapter;
-import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Adapters.CategoriesAdapter;
+import com.example.smartlab.Models.Basket;
 import com.example.smartlab.Models.CategoriesAnalyzes;
+import com.example.smartlab.Models.DataBinding;
+import com.example.smartlab.Models.ProfileUpdate;
+import com.example.smartlab.Models.UpdateBasket;
+import com.example.smartlab.filter.AnalysisFilterDialog;
+import com.example.smartlab.Models.Analyzes;
+import com.example.smartlab.Models.Category;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class AnalyzesActivity extends AppCompatActivity {
+public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapter.OnItemClickListener{
 
     private RecyclerView recyclerViewAnalyzes;
-    private Button buttonCategoriesAll;
+
+    private ImageButton textFiltering;
+    private Set<Integer> cartItems = new HashSet<>();
+    private AnalyzesAdapter analyzesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_analyzes);
+
         recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
-        buttonCategoriesAll = findViewById(R.id.buttonCategoriesAll);
-        buttonCategoriesAll.setOnClickListener(new View.OnClickListener() {
+        textFiltering = findViewById(R.id.textFiltering);
+        textFiltering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AnalyzesActivity.this, CategoriesAnalyzesActivity.class));
+                getCategoriesAllAnalyzes();
             }
         });
+        getCategoriesAnalyzes();
         ImageButMenu();
         ImageButClickMenu();
         getAllAnalyzes();
+        loadCartItems();
+    }
+    private void loadCartItems(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllBasket(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getAllBasket:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                    Log.e("getAllBasket:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<Basket>>(){}.getType();
+                    List<Basket> basketList = gson.fromJson(responseBody, type);
+                    cartItems.clear();
+                    Set<Integer> newCartItems = new HashSet<>();
+                    for (Basket item : basketList) {
+                        newCartItems.add(item.getId_analyzes());
+                    }
+
+                    runOnUiThread(() -> {
+                        cartItems.clear();
+                        cartItems.addAll(newCartItems);
+                        if (analyzesAdapter != null) {
+                            analyzesAdapter.updateCartItems(cartItems);
+                        }
+                    });
+            }
+        });
+    }
+    @Override
+    public void onItemClick(Analyzes analyzes) {
+
+    }
+
+    @Override
+    public void onAddToCartClick(Analyzes analyzes, boolean addToCart) {
+        String userId = DataBinding.getUuidUser();
+
+        if (addToCart) {
+            updateBasket(analyzes.getId_analyzes(), userId);
+        } else {
+//            removeFromBasket(analyzes.getId_analyzes(), userId);
+        }
+    }
+    public void updateBasket(int id_analyzes, String id_client){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        UpdateBasket updateBasket = new UpdateBasket(id_analyzes, id_client);
+        supaBaseClient.updateBasket(updateBasket, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onResponse", responseBody);
+                });
+            }
+        });
+
+    }
+    private void getCategoriesAnalyzes(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchCategoriesAllAnalyzes(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAnalyzes:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAnalyzes:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<CategoriesAnalyzes>>(){}.getType();
+                    List<CategoriesAnalyzes> categoriesAnalyzesList = gson.fromJson(responseBody, type);
+                    setupCategoriesRecycler(categoriesAnalyzesList);
+                });
+            }
+        });
+    }
+    private void setupCategoriesRecycler(List<CategoriesAnalyzes> categoriesList) {
+        List<Category> categories = new ArrayList<>();
+        for (CategoriesAnalyzes category : categoriesList) {
+            categories.add(new Category(
+                    category.getId_categories_of_analyses(),
+                    category.getTitle()
+            ));
+        }
+        RecyclerView recyclerView = findViewById(R.id.categoriesRecycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        CategoriesAdapter adapter = new CategoriesAdapter(categories);
+        recyclerView.setAdapter(adapter);
+    }
+    private void getCategoriesAllAnalyzes(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchCategoriesAllAnalyzes(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAllAnalyzes:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getCategoriesAllAnalyzes:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<CategoriesAnalyzes>>(){}.getType();
+                    List<CategoriesAnalyzes> categoriesAnalyzesList = gson.fromJson(responseBody, type);
+                    showFilterDialog(categoriesAnalyzesList);
+                });
+            }
+        });
+    }
+    private void showFilterDialog(List<CategoriesAnalyzes> categoriesList) {
+        List<Category> categories = new ArrayList<>();
+        for (CategoriesAnalyzes category : categoriesList) {
+            categories.add(new Category(
+                    category.getId_categories_of_analyses(),
+                    category.getTitle()
+            ));
+        }
+
+
+        AnalysisFilterDialog dialog = new AnalysisFilterDialog(
+                this,
+                categories,
+                new AnalysisFilterDialog.FilterListener() {
+                    @Override
+                    public void onFilterApplied(Integer priceFrom, Integer priceTo, int maxDays, Set<String> selectedCategories) {
+                        applyFilters(priceFrom, priceTo, maxDays, selectedCategories);
+                    }
+                }
+        );
+
+        dialog.show();
+    }
+
+    private void applyFilters(Integer priceFrom, Integer priceTo, int maxDays, Set<String> selectedCategories) {
+
+        StringBuilder query = new StringBuilder();
+
+        if (priceFrom != null) {
+            query.append("price=gte.").append(priceFrom).append("&");
+        }
+        if (priceTo != null) {
+            query.append("price=lte.").append(priceTo).append("&");
+        }
+
+        if (maxDays > 0) {
+            query.append("period_of_execution=lte.").append(maxDays).append("&");
+        }
+
+        if (!selectedCategories.isEmpty()) {
+            query.append("id_categories_of_analyses=in.(")
+                    .append(String.join(",", selectedCategories))
+                    .append(")&");
+        }
+
+        if (query.length() > 0 && query.charAt(query.length() - 1) == '&') {
+            query.deleteCharAt(query.length() - 1);
+        }
+
+        loadAnalysesFilter(query.toString());
+    }
+    private void loadAnalysesFilter(String query) {
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllAnalyzesFilters(query, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("loadAnalysesFilter:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("loadAnalysesFilter:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<Analyzes>>(){}.getType();
+                    List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
+                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList, AnalyzesActivity.this);
+                    recyclerViewAnalyzes.setAdapter(analyzesAdapter);
+                    recyclerViewAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                });
+            }
+        });
 
     }
     private void getAllAnalyzes(){
@@ -65,7 +287,7 @@ public class AnalyzesActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
                     List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
-                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList);
+                    AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList, AnalyzesActivity.this);
                     recyclerViewAnalyzes.setAdapter(analyzesAdapter);
                     recyclerViewAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 });
@@ -93,4 +315,6 @@ public class AnalyzesActivity extends AppCompatActivity {
         BasketButtonMenu.setOnClickListener(v -> startActivity(new Intent(this, BasketActivity.class)));
         ProfileButtonMenu.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
     }
+
+
 }

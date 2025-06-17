@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView imageUserView;
     private ASession aSession;
-    private Button exitButton, cardButton;
+    private Button exitButton, cardButton, recordsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         aSession = new ASession(this);
         exitButton = findViewById(R.id.buttonExitSession);
+        recordsButton = findViewById(R.id.recordsDoctorsButton);
+        recordsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, RecordsDoctorsActivity.class));
+            }
+        });
         imageUserView = findViewById(R.id.imageUser);
 
         exitButton.setOnClickListener(new View.OnClickListener() {

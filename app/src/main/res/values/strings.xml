@@ -30,6 +30,20 @@
     <string name="record">Record</string>
     <string name="basket">Basket</string>
     <string name="profile">Profile</string>
+    <string name="your_notes">Your notes</string>
+
+    <string name="records_text_1">You have an appointment with a doctor</string>
+    <string name="records_text_2">FIO: </string>
+    <string name="records_text_3">Specialization: </string>
+    <string name="records_text_4">Date and time: </string>
+
+    <string name="text_doctors_description_1">Make an appointment</string>
+    <string name="text_doctors_description_2">Experience</string>
+    <string name="text_doctors_description_3">rating</string>
+    <string name="text_doctors_description_4">About me</string>
+    <string name="text_doctors_description_5">Date and time</string>
+    <string name="text_doctors_description_date_1">Select a date</string>
+    <string name="text_doctors_description_date_2">Choose a time</string>
 
     <string name="welcome">Welcome!</string>
     <string name="text_login_1">Log in to use the app\'s features</string>
@@ -95,4 +109,37 @@
 
     <string name="categories">Category</string>
     <string name="not_specified">not specified</string>
+
+    <string name="text_filtering">Filtering</string>
+    <string name="text_price">Price, rub.</string>
+    <string name="text_term">Period of execution</string>
+    <string name="text_categories">Categories</string>
+
+    <string name="text_from">From</string>
+    <string name="text_before">Before</string>
+
+    <string name="text_button_off">Reset</string>
+    <string name="text_button_apply">Apply</string>
+
+    <string name="text_description">Description</string>
+    <string name="text_preparation">Preparation</string>
+    <string name="text_result">Results via:</string>
+    <string name="text_biomaterial">Biomaterial:</string>
+    <string name="text_add">Add for</string>
+
+    <string name="text_ru_en">en</string>
+    <string name="text_today">Today</string>
+    <string name="text_description_time_1">Select an appointment time</string>
+    <string name="text_description_time_2">Record Confirmation</string>
+    <string name="text_description_time_3">Are you sure you want to sign up for</string>
+    <string name="text_in">in</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_description_time_6">recorded</string>
+    <string name="text_no">No</string>
+
+    <string name="text_sum">The amount</string>
+    <string name="text_buy_button">Go to checkout</string>
+
+    <string name="text_delete_1">Confirmation of deletion</string>
+    <string name="text_delete_2">Are you sure you want to empty the entire trash?</string>
 </resources>

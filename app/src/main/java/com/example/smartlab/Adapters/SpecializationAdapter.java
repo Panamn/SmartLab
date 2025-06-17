@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.smartlab.AnalysesListActivity;
+import com.example.smartlab.HomeActivity;
 import com.example.smartlab.Models.CategoriesAnalyzes;
 import com.example.smartlab.Models.SpecializationCategories;
 import com.example.smartlab.R;
+import com.example.smartlab.SpecializationListActivity;
 
 import java.util.List;
 
@@ -48,20 +50,20 @@ public class SpecializationAdapter extends RecyclerView.Adapter<SpecializationAd
                 .into(holder.iconsImageView);
         holder.specializationTextView.setText(specializationCategories.getTitle());
         holder.view.setBackgroundColor(Color.parseColor(specializationCategories.getBackground()));
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, AnalysesListActivity.class);
-//                intent.putExtra("category_id", categoriesAnalyzes.getId_categories_of_analyses());
-//                intent.putExtra("category_title", categoriesAnalyzes.getTitle());
-//                if (context instanceof Activity) {
-//                    context.startActivity(intent);
-//                } else {
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
-//                }
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SpecializationListActivity.class);
+                intent.putExtra("category_specialization_id", specializationCategories.getId_specialization_categories());
+                intent.putExtra("category_specialization_title", specializationCategories.getTitle());
+                if (context instanceof Activity) {
+                    context.startActivity(intent);
+                } else {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
