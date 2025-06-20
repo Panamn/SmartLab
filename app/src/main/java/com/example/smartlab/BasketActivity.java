@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
 
-public class BasketActivity extends AppCompatActivity {
+public class BasketActivity extends AppCompatActivity implements BasketAdapter.OnItemClickListener{
 
     private RecyclerView recyclerBasket;
     private ImageButton imageDeleteAll;
@@ -44,6 +44,8 @@ public class BasketActivity extends AppCompatActivity {
         imageDeleteAll = findViewById(R.id.imageDeleteAll);
         sumPriceTextView = findViewById(R.id.sumPriceTextView);
         buyButton = findViewById(R.id.buyButton);
+
+        buyButton.setOnClickListener(v -> startActivity(new Intent(BasketActivity.this, BuyActivity.class)));
 
         imageDeleteAllAnalyzes();
         getAllBasket();
@@ -86,7 +88,7 @@ public class BasketActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Basket>>(){}.getType();
                     basketList = gson.fromJson(responseBody, type);
-                    BasketAdapter basketAdapter = new BasketAdapter(getApplicationContext(), basketList);
+                    BasketAdapter basketAdapter = new BasketAdapter(getApplicationContext(), basketList, BasketActivity.this);
                     recyclerBasket.setAdapter(basketAdapter);
                     recyclerBasket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     updateTotal();
@@ -146,5 +148,42 @@ public class BasketActivity extends AppCompatActivity {
             sum += item.getAnalyzes().getPrice();
         }
         return sum;
+    }
+
+    @Override
+    public void onDeleteToCartClick(Basket basket) {
+        String id_additions = String.valueOf(basket.getId_additions());
+        new AlertDialog.Builder(BasketActivity.this)
+                .setTitle(getString(R.string.text_delete_1))
+                .setMessage(getString(R.string.text_delete_3))
+                .setPositiveButton(getString(R.string.text_yes), (dialog, which) -> {
+                    getBasketDelete(id_additions);
+                })
+                .setNegativeButton(getString(R.string.text_no), (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(true)
+                .show();
+
+    }
+    private void getBasketDelete(String id_additions){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.deleteBasket(id_additions, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getBasketDelete:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getBasketDelete:onResponse", responseBody);
+                    getAllBasket();
+                });
+            }
+        });
     }
 }

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.smartlab.Models.Profile;
 import com.example.smartlab.Models.ProfileUpdateCard;
+import com.example.smartlab.Models.ProfileUpdatePhone;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,10 +31,10 @@ import java.util.Locale;
 
 public class ProfileCardActivity extends AppCompatActivity {
     private ImageView imageUserView;
-    private EditText firstNameEditText, middleNameEditText, lastNameEditText, birthDateEditText;
+    private EditText firstNameEditText, middleNameEditText, lastNameEditText, birthDateEditText, phoneNameEditText, emailNameEditText;
     private Spinner genderSpinner;
     private Calendar birthDateCalendar;
-    private Button saveButton;
+    private Button saveButton, updateButton, recoverButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,12 @@ public class ProfileCardActivity extends AppCompatActivity {
         middleNameEditText = findViewById(R.id.middleNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         birthDateEditText = findViewById(R.id.birthDateEditText);
+        phoneNameEditText = findViewById(R.id.phoneNameEditText);
+        emailNameEditText = findViewById(R.id.emailNameEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
         saveButton = findViewById(R.id.saveButton);
+        updateButton = findViewById(R.id.updateButton);
+        recoverButton = findViewById(R.id.recoverButton);
         birthDateCalendar = Calendar.getInstance();
         setupGenderSpinner();
         getProfileCard();
@@ -56,6 +61,14 @@ public class ProfileCardActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 showDatePickerDialog();
+            }
+        });
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = phoneNameEditText.getText().toString().trim();
+                String email = emailNameEditText.getText().toString().trim();
+                updateProfilePhone(phone);
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +91,7 @@ public class ProfileCardActivity extends AppCompatActivity {
                         normalizedGender.equals("woman")) {
                     gender = "woman";
                 }
-                savePatientData(fullName, birthDate, gender);
+                updateProfile(fullName, birthDate, gender);
             }
         });
         ImageButMenu();
@@ -116,16 +129,14 @@ public class ProfileCardActivity extends AppCompatActivity {
 
 
     }
-
-    private void savePatientData(String fullName,  String birthDate, String gender) {
-
+    private void updateProfilePhone(String phone) {
         SupaBaseClient supaBaseClient = new SupaBaseClient();
-        ProfileUpdateCard profileUpdateCard = new ProfileUpdateCard(fullName, birthDate, gender);
-        supaBaseClient.updateProfileCard(profileUpdateCard, new SupaBaseClient.SBC_Callback() {
+        ProfileUpdatePhone profileUpdatePhone = new ProfileUpdatePhone(phone);
+        supaBaseClient.updateProfilePhone(profileUpdatePhone, new SupaBaseClient.SBC_Callback() {
             @Override
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
-                    Log.e("savePatientData:onFailure", e.getLocalizedMessage());
+                    Log.e("updateProfile:onFailure", e.getLocalizedMessage());
                 });
 
             }
@@ -133,7 +144,29 @@ public class ProfileCardActivity extends AppCompatActivity {
             @Override
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
-                    Log.e("savePatientData:onResponse", responseBody);
+                    Log.e("updateProfile:onResponse", responseBody);
+                    startActivity(new Intent(ProfileCardActivity.this, ProfileActivity.class));
+                    finish();
+                });
+            }
+        });
+    }
+    private void updateProfile(String fullName,  String birthDate, String gender) {
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        ProfileUpdateCard profileUpdateCard = new ProfileUpdateCard(fullName, birthDate, gender);
+        supaBaseClient.updateProfileCard(profileUpdateCard, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("updateProfile:onResponse", responseBody);
                     startActivity(new Intent(ProfileCardActivity.this, ProfileActivity.class));
                     finish();
                 });
@@ -171,6 +204,7 @@ public class ProfileCardActivity extends AppCompatActivity {
                             firstNameEditText.setText(nameParts[1]);
                             middleNameEditText.setText(nameParts[2]);
                         birthDateEditText.setText(profile.getSate_of_birth());
+                        phoneNameEditText.setText(profile.getPhone());
                         setGenderInSpinner(profile.getGender());
                     }
                 });

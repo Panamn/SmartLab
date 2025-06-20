@@ -31,6 +31,7 @@
     <string name="basket">Basket</string>
     <string name="profile">Profile</string>
     <string name="your_notes">Your notes</string>
+    <string name="your_notifications">Notifications</string>
 
     <string name="records_text_1">You have an appointment with a doctor</string>
     <string name="records_text_2">FIO: </string>
@@ -45,9 +46,11 @@
     <string name="text_doctors_description_date_1">Select a date</string>
     <string name="text_doctors_description_date_2">Choose a time</string>
 
+    <string name="recover">Password Recovery</string>
     <string name="welcome">Welcome!</string>
     <string name="text_login_1">Log in to use the app\'s features</string>
     <string name="email">E-mail</string>
+    <string name="phone">Telephone</string>
     <string name="email2">example@mail.ru</string>
     <string name="password">Password</string>
     <string name="password2">password</string>
@@ -65,7 +68,9 @@
     <string name="input_pin">Enter the PIN code</string>
 
     <string name="text_email_code_1">Enter the code from the E-mail</string>
-    <string name="text_email_code_2">You can send the code again \n it will be in {n} seconds</string>
+    <string name="text_email_code_2">You can send the code again \n it will be in</string>
+    <string name="text_email_code_22">seconds</string>
+    <string name="text_email_code_3">Send the code again</string>
 
     <string name="text_validate_1">Email is required</string>
     <string name="text_validate_2">Please enter a valid email</string>
@@ -96,6 +101,9 @@
     </string-array>
     <string name="gender_man">man</string>
 
+    <string name="profile_card_1">Medical card</string>
+    <string name="profile_card_2">Personal information</string>
+    <string name="profile_card_3">Recovery</string>
     <string name="profile_card_name">Patient\'s card</string>
     <string name="profile_card_name_1">Name</string>
     <string name="profile_card_name_2">Middle name</string>
@@ -114,6 +122,7 @@
     <string name="text_price">Price, rub.</string>
     <string name="text_term">Period of execution</string>
     <string name="text_categories">Categories</string>
+    <string name="text_rating">Rating</string>
 
     <string name="text_from">From</string>
     <string name="text_before">Before</string>
@@ -139,7 +148,67 @@
 
     <string name="text_sum">The amount</string>
     <string name="text_buy_button">Go to checkout</string>
+    <string name="text_basket_button">Into a basket</string>
 
     <string name="text_delete_1">Confirmation of deletion</string>
     <string name="text_delete_2">Are you sure you want to empty the entire trash?</string>
+    <string name="text_delete_3">Are you sure you want to delete it?</string>
+
+    <string name="text_filter_1">price from</string>
+    <string name="text_filter_2">price up to</string>
+    <string name="text_filter_3">rating from</string>
+    <string name="text_filter_3_3">period of execution:</string>
+    <string name="text_filter_4">specialization</string>
+    <string name="text_filter_4_4">category</string>
+
+    <string name="text_filter_5">Filtering</string>
+    <string name="text_filter_6">Filter: </string>
+
+    <string name="text_rub">rub.</string>
+
+    <string name="text_buy_1">Making an order</string>
+    <string name="text_buy_2">Address *</string>
+    <string name="text_buy_1_button">Enter your address</string>
+    <string name="text_buy_3">Date and time*</string>
+    <string name="text_buy_2_button">Select the date and time</string>
+    <string name="text_buy_4">Telephone *</string>
+    <string name="text_buy_2_edit">Enter your phone number</string>
+    <string name="text_buy_5">Comment</string>
+    <string name="text_buy_6">You can leave your suggestions</string>
+    <string name="text_buy_3_button">To order</string>
+
+    <string name="text_address_1">Your address</string>
+    <string name="text_address_2">City(region)</string>
+    <string name="text_address_3">Street</string>
+    <string name="text_address_4">Apartment</string>
+    <string name="text_address_5">Entrance</string>
+    <string name="text_address_6">Floor</string>
+
+    <string name="text_address_1_edit">Enter the city(region)</string>
+    <string name="text_address_2_edit">Enter your street</string>
+    <string name="text_address_3_edit">Number</string>
+
+    <string name="text_address_3_text">Save this address?</string>
+    <string name="text_address_3_button">Confirm</string>
+
+    <string name="text_buy1">We are contacting the bank...</string>
+    <string name="text_buy2">We make the payment...</string>
+    <string name="text_buy3">Payment</string>
+    <string name="text_buy4">Your order has been successfully paid for!</string>
+
+    <string name="text_buy_4_1">Purchase receipt</string>
+    <string name="text_buy_4_2">Go main page</string>
+
+
+    <string name="text_validate_error">Invalid code</string>
+    <string name="new_password">Enter a new password</string>
+
+    <string name="text_notification_1">Have you made an appointment</string>
+    <string name="text_notification_1_1">You have placed an order</string>
+    <string name="text_notification_2">Specialization:</string>
+    <string name="text_notification_2_1">Analyzes:</string>
+    <string name="text_notification_3">Doctor:</string>
+    <string name="text_notification_4">Date and time:</string>
+    <string name="text_notification_5">For the amount of:</string>
+
 </resources>

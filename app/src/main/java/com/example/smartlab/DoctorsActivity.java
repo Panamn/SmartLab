@@ -25,17 +25,22 @@ import com.example.smartlab.Models.Category;
 import com.example.smartlab.Models.Doctors;
 import com.example.smartlab.Models.Specialization;
 import com.example.smartlab.Models.SpecializationCategories;
+import com.example.smartlab.filter.AnalysisFilterDialog;
+import com.example.smartlab.filter.DoctorsFilterDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DoctorsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerDoctorsAll;
+    private ImageButton textFiltering;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +49,117 @@ public class DoctorsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctors);
 
         recyclerDoctorsAll = findViewById(R.id.recyclerDoctorsAll);
+        textFiltering = findViewById(R.id.textFiltering);
+        textFiltering.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadSpecializations();
+            }
+        });
+
 
         getAllDoctors();
         ImageButMenu();
         ImageButClickMenu();
         getCategoriesAllSpecialization();
 
+    }
+
+    private void showFilterDialog(List<SpecializationCategories> specializationList) {
+        List<Specialization> specialization = new ArrayList<>();
+        for (SpecializationCategories category : specializationList) {
+            specialization.add(new Specialization(
+                    String.valueOf(category.getId_specialization_categories()),
+                    category.getTitle()
+            ));
+        }
+
+
+        DoctorsFilterDialog dialog = new DoctorsFilterDialog(
+                this,
+                specialization,
+                new DoctorsFilterDialog.FilterListener() {
+                    @Override
+                    public void onFilterApplied(Integer priceFrom, Integer priceTo, float minRating, Set<String> selectedSpecializations) {
+                        applyFilters(priceFrom, priceTo, minRating, selectedSpecializations);
+                    }
+                }
+        );
+
+        dialog.show();
+    }
+    private void applyFilters(Integer priceFrom, Integer priceTo, float minRating, Set<String> selectedSpecializations) {
+
+        StringBuilder query = new StringBuilder();
+
+        if (priceFrom != null) {
+            query.append("price_of_admission=gte.").append(priceFrom).append("&");
+        }
+        if (priceTo != null) {
+            query.append("price_of_admission=lte.").append(priceTo).append("&");
+        }
+
+        if (minRating > 0) {
+            query.append("rating=gte.").append(minRating).append("&");
+        }
+
+        if (!selectedSpecializations.isEmpty()) {
+            query.append("id_specialization=in.(")
+                    .append(String.join(",", selectedSpecializations))
+                    .append(")&");
+        }
+
+        if (query.length() > 0 && query.charAt(query.length() - 1) == '&') {
+            query.deleteCharAt(query.length() - 1);
+        }
+        Log.e("query", query.toString());
+        getAllDoctorsFilter(query.toString());
+    }
+
+    private void getAllDoctorsFilter(String query){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        supaBaseClient.fetchAllDoctorsFilters(query, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctorsFilter:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("getAllDoctorsFilter:onResponse", responseBody);
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<Doctors>>(){}.getType();
+                    List<Doctors> doctorsList = gson.fromJson(responseBody, type);
+                    DoctorsAdapter doctorsAdapter = new DoctorsAdapter(getApplicationContext(), doctorsList);
+                    recyclerDoctorsAll.setAdapter(doctorsAdapter);
+                    recyclerDoctorsAll.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                });
+            }
+        });
+    }
+
+    private void loadSpecializations() {
+        SupaBaseClient client = new SupaBaseClient();
+        client.fetchAllSpecialization(new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                Log.e("DoctorsActivity", "Error loading specializations", e);
+            }
+            @Override
+            public void onResponse(String response) {
+                runOnUiThread(() -> {
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<List<SpecializationCategories>>(){}.getType();
+                    List<SpecializationCategories> specializationList = gson.fromJson(response, type);
+                    showFilterDialog(specializationList);
+                });
+            }
+
+        });
     }
     private void getCategoriesAllSpecialization(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

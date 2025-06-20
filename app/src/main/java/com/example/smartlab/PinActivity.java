@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartlab.Models.DataBinding;
+import com.example.smartlab.Models.UpdateClient;
+
+import java.io.IOException;
 
 public class PinActivity extends AppCompatActivity {
     private static final String PIN = "Pin";
@@ -49,7 +53,6 @@ public class PinActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(PIN, MODE_PRIVATE);
         String savePin = prefs.getString(KEY_PIN, null);
-
 
 
         if (savePin == null) {

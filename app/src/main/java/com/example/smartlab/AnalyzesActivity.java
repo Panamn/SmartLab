@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -28,21 +29,29 @@ import com.example.smartlab.Models.Category;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapter.OnItemClickListener{
 
     private RecyclerView recyclerViewAnalyzes;
-
+    private TextView priceTextView;
     private ImageButton textFiltering;
     private Set<Integer> cartItems = new HashSet<>();
     private AnalyzesAdapter analyzesAdapter;
+    private int totalPrice = 0;
+    private RelativeLayout relative;
+    private Button basketButton;
+    private int id_additions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,9 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_analyzes);
 
+        basketButton = findViewById(R.id.basketButton);
+        relative = findViewById(R.id.relative);
+        priceTextView = findViewById(R.id.priceTextView);
         recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
         textFiltering = findViewById(R.id.textFiltering);
         textFiltering.setOnClickListener(new View.OnClickListener() {
@@ -58,59 +70,58 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
                 getCategoriesAllAnalyzes();
             }
         });
+        basketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AnalyzesActivity.this, BasketActivity.class));
+            }
+        });
         getCategoriesAnalyzes();
         ImageButMenu();
         ImageButClickMenu();
         getAllAnalyzes();
-        loadCartItems();
     }
-    private void loadCartItems(){
+    @Override
+    public void onItemClick(Analyzes analyzes) {
+        AnalyzeDetailFragment fragment = new AnalyzeDetailFragment();
+        fragment.setAnalyzeData(analyzes);
+        fragment.show(getSupportFragmentManager(), "analyze_detail");
+    }
+
+    @Override
+    public void onAddToCartClick(Analyzes analyzes) {
+        String userId = DataBinding.getUuidUser();
+
+        updateBasket(analyzes.getId_analyzes(), userId);
+        totalPrice += analyzes.getPrice();
+        relative.setVisibility(View.VISIBLE);
+        updateTotalPrice();
+    }
+    private void updateTotalPrice() {
+            if (totalPrice > 0) {
+                priceTextView.setText(String.format(Locale.getDefault(), "%d ₽", totalPrice));
+            } else {
+                priceTextView.setText("0 ₽");
+            }
+    }
+    private void getBasketDelete(int id_additions){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
-        supaBaseClient.fetchAllBasket(new SupaBaseClient.SBC_Callback() {
+        supaBaseClient.deleteBasket(String.valueOf(id_additions), new SupaBaseClient.SBC_Callback() {
             @Override
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
-                    Log.e("getAllBasket:onFailure", e.getLocalizedMessage());
+                    Log.e("getBasketDelete:onFailure", e.getLocalizedMessage());
                 });
 
             }
 
             @Override
             public void onResponse(String responseBody) {
-                    Log.e("getAllBasket:onResponse", responseBody);
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<List<Basket>>(){}.getType();
-                    List<Basket> basketList = gson.fromJson(responseBody, type);
-                    cartItems.clear();
-                    Set<Integer> newCartItems = new HashSet<>();
-                    for (Basket item : basketList) {
-                        newCartItems.add(item.getId_analyzes());
-                    }
-
-                    runOnUiThread(() -> {
-                        cartItems.clear();
-                        cartItems.addAll(newCartItems);
-                        if (analyzesAdapter != null) {
-                            analyzesAdapter.updateCartItems(cartItems);
-                        }
-                    });
+                runOnUiThread(() -> {
+                    Log.e("getBasketDelete:onResponse", responseBody);
+                });
             }
         });
-    }
-    @Override
-    public void onItemClick(Analyzes analyzes) {
-
-    }
-
-    @Override
-    public void onAddToCartClick(Analyzes analyzes, boolean addToCart) {
-        String userId = DataBinding.getUuidUser();
-
-        if (addToCart) {
-            updateBasket(analyzes.getId_analyzes(), userId);
-        } else {
-//            removeFromBasket(analyzes.getId_analyzes(), userId);
-        }
     }
     public void updateBasket(int id_analyzes, String id_client){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
@@ -128,6 +139,12 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
                     Log.e("updateProfile:onResponse", responseBody);
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        id_additions = json.getInt("id_additions");
+                    } catch (JSONException e) {
+                        Log.e("Ошибка обработки ответа", "0");
+                    }
                 });
             }
         });
@@ -219,6 +236,7 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
     private void applyFilters(Integer priceFrom, Integer priceTo, int maxDays, Set<String> selectedCategories) {
 
         StringBuilder query = new StringBuilder();
+
 
         if (priceFrom != null) {
             query.append("price=gte.").append(priceFrom).append("&");

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.smartlab.Models.Analyzes;
 import com.example.smartlab.Models.Basket;
 import com.example.smartlab.Models.PromotionsNews;
 import com.example.smartlab.R;
@@ -23,11 +24,19 @@ import java.util.List;
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder> {
     private Context context;
     private List<Basket> basketList;
+    private OnItemClickListener listener;
 
-    public BasketAdapter(Context context, List<Basket> basketList) {
+    public interface OnItemClickListener {
+        void onDeleteToCartClick(Basket basket);
+    }
+
+    public BasketAdapter(Context context, List<Basket> basketList, OnItemClickListener listener) {
         this.context = context;
         this.basketList = basketList;
+        this.listener = listener;
     }
+
+
 
     @NonNull
     @Override
@@ -40,7 +49,10 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public void onBindViewHolder(@NonNull BasketAdapter.ViewHolder holder, int position) {
         Basket basket = basketList.get(position);
         holder.titleTextView.setText(basket.getAnalyzes().getTitle());
-        holder.priceTextView.setText(String.valueOf(basket.getAnalyzes().getPrice()));
+        holder.priceTextView.setText(String.valueOf(basket.getAnalyzes().getPrice()) + " ₽");
+        holder.buttonDelete.setOnClickListener(v -> {
+            listener.onDeleteToCartClick(basket);
+        });
     }
 
     @Override

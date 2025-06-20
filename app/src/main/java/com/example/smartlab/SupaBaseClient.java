@@ -2,14 +2,22 @@ package com.example.smartlab;
 
 import androidx.annotation.NonNull;
 
+import com.example.smartlab.Models.CheckEmail;
+import com.example.smartlab.Models.Client;
 import com.example.smartlab.Models.DataBinding;
+import com.example.smartlab.Models.InputEmail;
 import com.example.smartlab.Models.LoginRequest;
 import com.example.smartlab.Models.ProfileUpdate;
 import com.example.smartlab.Models.ProfileUpdateCard;
+import com.example.smartlab.Models.ProfileUpdatePhone;
 import com.example.smartlab.Models.UpdateBasket;
+import com.example.smartlab.Models.UpdateClient;
+import com.example.smartlab.Models.UpdateProfileAddress;
 import com.example.smartlab.Models.UpdateRecords;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,81 +44,48 @@ public class SupaBaseClient {
 
     OkHttpClient client = new OkHttpClient();
 
-    public void sendRecoveryRequest(String email, final SBC_Callback callback) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("type", "recovery");
-            json.put("email", email);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        RequestBody body = RequestBody.create(
-                json.toString(), MediaType.get("application/json")
-        );
-
+    public void sendRecoveryRequest(InputEmail inputEmail, final SBC_Callback callback) {
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(inputEmail);
+        RequestBody body = RequestBody.create(json, mediaType);
         Request request = new Request.Builder()
-                .url(DOMAIN_NAME + AUTH_PATH + "verify")
+                .url(DOMAIN_NAME + AUTH_PATH + "otp")
                 .post(body)
                 .addHeader("apikey", API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Call call, IOException e) {
-                callback.onFailure(e); }
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
 
-            @Override public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    try {
-                        String responseBody = response.body().string();
-                        JSONObject json = new JSONObject(responseBody);
-                        String accessToken = json.getString("access_token");
-
-                        DataBinding.saveBearerToken(accessToken);
-                        callback.onResponse(accessToken);
-                    } catch (Exception e) {
-                        callback.onFailure(new IOException("Ошибка обработки ответа: " + e.getMessage()));
-                    }
-                } else {
-                    String errorBody = response.body() != null ? response.body().string() : "Неизвестная ошибка";
-                    try {
-                        JSONObject errorJson = new JSONObject(errorBody);
-                        String errorCode = errorJson.optString("error_code", "");
-                        String errorMsg = errorJson.optString("msg", "Ошибка сервера");
-
-                        if ("otp_expired".equals(errorCode)) {
-                            callback.onFailure(new IOException("OTP ист2уцуйёк"));
-                        } else if ("invalid_token".equals(errorCode)) {
-                            callback.onFailure(new IOException("Неверныйцуй токен"));
-                        } else {
-                            callback.onFailure(new IOException("Ошибйцука: " + errorMsg));
-                        }
-                    } catch (Exception e) {
-                        callback.onFailure(new IOException("Ошибка сервера: " + errorBody));
-                    }
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
                 }
             }
         });
     }
 
     public void verifyOtp(String email, String code, final SBC_Callback callback) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("email", email);
-            jsonObject.put("type", "recovery");
-            jsonObject.put("token", code);
-        } catch (Exception e) {
-            callback.onFailure(new IOException("Ошибка формирования данных: " + e.getMessage()));
-            return;
-        }
 
-        RequestBody body = RequestBody.create(MediaType.get("application/json"), jsonObject.toString());
+        MediaType mediaType = MediaType.parse("application/json");
+        String json = String.format(
+                "{\"type\":\"email\",\"email\":\"%s\",\"token\":\"%s\"}",
+                email, code
+        );
+        RequestBody body = RequestBody.create(json, mediaType);
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + AUTH_PATH + "verify")
                 .post(body)
-                .addHeader("apikey", API_KEY)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
                 .addHeader("Content-Type", "application/json")
                 .build();
 
@@ -122,60 +97,28 @@ public class SupaBaseClient {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    try {
-                        String responseBody = response.body().string();
-                        JSONObject json = new JSONObject(responseBody);
-                        String accessToken = json.getString("access_token");
-
-                        DataBinding.saveBearerToken(accessToken);
-                        callback.onResponse(accessToken);
-                    } catch (Exception e) {
-                        callback.onFailure(new IOException("Ошибка обработки ответа: " + e.getMessage()));
-                    }
-                } else {
-                    String errorBody = response.body() != null ? response.body().string() : "Неизвестная ошибка";
-                    try {
-                        JSONObject errorJson = new JSONObject(errorBody);
-                        String errorCode = errorJson.optString("error_code", "");
-                        String errorMsg = errorJson.optString("msg", "Ошибка сервера");
-
-                        if ("otp_expired".equals(errorCode)) {
-                            callback.onFailure(new IOException("OTP истёк"));
-                        } else if ("invalid_token".equals(errorCode)) {
-                            callback.onFailure(new IOException("Неверный токен"));
-                        } else {
-                            callback.onFailure(new IOException("Ошибка: " + errorMsg));
-                        }
-                    } catch (Exception e) {
-                        callback.onFailure(new IOException("Ошибка сервера: " + errorBody));
-                    }
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
                 }
             }
         });
     }
 
-    public void updatePassword(String newPassword, final SBC_Callback callback) {
-        String accessToken = DataBinding.getBearerToken();
-        if (accessToken == null) {
-            callback.onFailure(new IOException("Требуется авторизация"));
-            return;
-        }
-
-        JSONObject payload = new JSONObject();
-        try {
-            payload.put("password", newPassword);
-        } catch (Exception e) {
-            callback.onFailure(new IOException("Ошибка формирования данных: " + e.getMessage()));
-            return;
-        }
-
-        RequestBody body = RequestBody.create(MediaType.get("application/json"), payload.toString());
+    public void updatePassword(String token, String email, String newPassword, final SBC_Callback callback) {
+        MediaType mediaType = MediaType.parse("application/json");
+        String json = String.format(
+                "{\"email\":\"%s\",\"password\":\"%s\"}",
+                email, newPassword
+        );
+        RequestBody body = RequestBody.create(json, mediaType);
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + AUTH_PATH + "user")
                 .put(body)
                 .addHeader("apikey", API_KEY)
-                .addHeader("Authorization", "Bearer " + accessToken)
+                .addHeader("Authorization", "Bearer " + token)
                 .addHeader("Content-Type", "application/json")
                 .build();
 
@@ -184,13 +127,14 @@ public class SupaBaseClient {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 callback.onFailure(e);
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    callback.onResponse("Пароль успешно изменён");
-                } else {
-                    String errorBody = response.body() != null ? response.body().string() : "Неизвестная ошибка";
-                    callback.onFailure(new IOException("Ошибка при смене пароля: " + errorBody));
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
                 }
             }
         });
@@ -226,17 +170,16 @@ public class SupaBaseClient {
             }
         });
     }
-
-    public void updateBasket(UpdateBasket updateBasket, final SBC_Callback callback){
+    public void updateProfilePhone(ProfileUpdatePhone profile, final SBC_Callback callback){
         MediaType mediaType = MediaType.parse("application/json");
         Gson gson = new Gson();
-        String json = gson.toJson(updateBasket);
+        String json = gson.toJson(profile);
         RequestBody body = RequestBody.create(json, mediaType);
         Request request = new Request.Builder()
-                .url(DOMAIN_NAME + REST_PATH + "basket")
-                .post(body)
-                .addHeader("apikey", API_KEY_INSERT_DELETE)
-                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .url(DOMAIN_NAME + REST_PATH + "profiles?id=eq." + DataBinding.getUuidUser())
+                .method("PATCH", body)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Prefer", "return=minimal")
                 .build();
@@ -253,6 +196,77 @@ public class SupaBaseClient {
                     callback.onResponse(responseBody);
                 }else {
                     callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void updateProfileAddress(UpdateProfileAddress profile, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(profile);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "profiles?id=eq." + DataBinding.getUuidUser())
+                .method("PATCH", body)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=minimal")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void updateBasket(UpdateBasket updateBasket, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(updateBasket);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "basket")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    try {
+                        // Ожидаем массив с одной записью
+                        JSONArray jsonArray = new JSONArray(responseBody);
+                        if(jsonArray.length() > 0) {
+                            JSONObject addedItem = jsonArray.getJSONObject(0);
+                            callback.onResponse(addedItem.toString());
+                        } else {
+                            callback.onFailure(new IOException("Пустой ответ от сервера"));
+                        }
+                    } catch (JSONException e) {
+                        callback.onFailure(new IOException("Ошибка парсинга ответа: " + e.getMessage()));
+                    }
+                } else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response.code()));
                 }
             }
         });
@@ -297,6 +311,36 @@ public class SupaBaseClient {
                 .method("PATCH", body)
                 .addHeader("apikey", API_KEY)
                 .addHeader("Authorization",DataBinding.getBearerToken())
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=minimal")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void updateClient(UpdateClient clients, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(clients);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "client")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Prefer", "return=minimal")
                 .build();
@@ -422,6 +466,7 @@ public class SupaBaseClient {
         });
     }
 
+
     public void fetchAllDoctors(final SBC_Callback callback){
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + REST_PATH + "doctors?select=*,profiles(*),specialization_categories(*)")
@@ -505,6 +550,29 @@ public class SupaBaseClient {
                 callback.onFailure(e);
             }
 
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void fetchAllDoctorsFilters(String query, final SBC_Callback callback){
+        String queryFull = (query != null && !query.isEmpty() ? "&" + query : "");
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "doctors?select=*,profiles(*),specialization_categories(*)" + queryFull)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
@@ -658,6 +726,31 @@ public class SupaBaseClient {
             }
         });
     }
+    public void deleteBasket(String id_additions, final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "basket?id_additions=eq." + id_additions)
+                .delete()
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Prefer", "return=minimal")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
     public void fetchAllRecords(final SBC_Callback callback){
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + REST_PATH + "records?select=*,doctors(*, profile(*), specialization_categories(*))&records.id_client=eq." + DataBinding.getUuidUser())
@@ -682,5 +775,28 @@ public class SupaBaseClient {
             }
         });
     }
-    
+    public void fetchAllNotification(final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "notifications?select=*&id_profile=eq." + DataBinding.getUuidUser())
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .addHeader("Content-Type", "application/json")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
 }

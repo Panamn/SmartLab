@@ -1,9 +1,7 @@
 package com.example.smartlab.filter;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -50,7 +48,7 @@ public class AnalysisFilterDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.filter_overlay);
+        setContentView(R.layout.filter_analyzes);
 
         Window window = getWindow();
         if (window != null) {

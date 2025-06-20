@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -27,26 +28,34 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class AnalysesListActivity extends AppCompatActivity implements AnalyzesAdapter.OnItemClickListener{
 
     private RecyclerView recyclerViewCategoriesListAnalyzes;
-    private TextView categoryTitleText;
+    private TextView categoryTitleText, priceTextView;
     private int categoryId;
     private String categoryTitle;
     private ImageButton textFiltering;
+    private int totalPrice = 0;
+    private RelativeLayout relative;
+    private Button basketButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_categories_list_analyses);
+
+        basketButton = findViewById(R.id.basketButton);
+        relative = findViewById(R.id.relative);
+        priceTextView = findViewById(R.id.priceTextView);
         recyclerViewCategoriesListAnalyzes = findViewById(R.id.recyclerViewCategoriesListAnalyzes);
         categoryTitleText = findViewById(R.id.categoryTitleText);
         categoryId = getIntent().getIntExtra("category_id", 0); //-1
         categoryTitle = getIntent().getStringExtra("category_title");
 
-        categoryTitleText.setText(getString(R.string.categories) + ":\n" + categoryTitle);
+        categoryTitleText.setText(getString(R.string.categories) + ": " + categoryTitle);
 
         ImageButMenu();
         ImageButClickMenu();
@@ -109,29 +118,44 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
     private void applyFilters(Integer priceFrom, Integer priceTo, int maxDays, Set<String> selectedCategories) {
 
         StringBuilder query = new StringBuilder();
+        List<String> nameFilters = new ArrayList<>();
 
         if (priceFrom != null) {
             query.append("price=gte.").append(priceFrom).append("&");
+            nameFilters.add(getString(R.string.text_filter_1) + " " + priceFrom + " " + getString(R.string.text_rub));
         }
         if (priceTo != null) {
             query.append("price=lte.").append(priceTo).append("&");
+            nameFilters.add(getString(R.string.text_filter_2) + " " + priceTo + " " + getString(R.string.text_rub));
         }
 
         if (maxDays > 0) {
             query.append("period_of_execution=lte.").append(maxDays).append("&");
+            nameFilters.add(getString(R.string.text_filter_3_3) + " " + maxDays);
         }
 
         if (!selectedCategories.isEmpty()) {
             query.append("id_categories_of_analyses=in.(")
                     .append(String.join(",", selectedCategories))
                     .append(")&");
+            nameFilters.add(getString(R.string.text_filter_4_4));
         }
 
         if (query.length() > 0 && query.charAt(query.length() - 1) == '&') {
             query.deleteCharAt(query.length() - 1);
         }
+        if(!query.toString().isEmpty()){
+            loadAnalysesFilter(query.toString());
+            if (nameFilters.isEmpty()) {
+                categoryTitleText.setText(getString(R.string.text_filter_5));
+            } else {
+                categoryTitleText.setText(getString(R.string.text_filter_6) + " " + String.join(",\n", nameFilters));
+            }
+        } else {
+            loadAnalysesFilter(query.toString());
+            categoryTitleText.setText(getString(R.string.categories) + ": " + categoryTitle);
+        }
 
-        loadAnalysesFilter(query.toString());
     }
     private void loadAnalysesFilter(String query) {
         SupaBaseClient supaBaseClient = new SupaBaseClient();
@@ -165,7 +189,7 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
             @Override
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
-                    Log.e("getAllAnalyzes:onFailure", e.getLocalizedMessage());
+                    Log.e("getCategoriesListAnalyzes:onFailure", e.getLocalizedMessage());
                 });
 
             }
@@ -173,7 +197,7 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
             @Override
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
-                    Log.e("getAllAnalyzes:onResponse", responseBody);
+                    Log.e("getCategoriesListAnalyzes:onResponse", responseBody);
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
                     List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
@@ -209,19 +233,28 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
 
     @Override
     public void onItemClick(Analyzes analyzes) {
-
+        AnalyzeDetailFragment fragment = new AnalyzeDetailFragment();
+        fragment.setAnalyzeData(analyzes);
+        fragment.show(getSupportFragmentManager(), "analyze_detail");
     }
 
     @Override
-    public void onAddToCartClick(Analyzes analyzes, boolean addToCart) {
+    public void onAddToCartClick(Analyzes analyzes) {
         String userId = DataBinding.getUuidUser();
 
-        if (addToCart) {
-            updateBasket(analyzes.getId_analyzes(), userId);
+        updateBasket(analyzes.getId_analyzes(), userId);
+        totalPrice += analyzes.getPrice();
+        relative.setVisibility(View.VISIBLE);
+        updateTotalPrice();
+    }
+    private void updateTotalPrice() {
+        if (totalPrice > 0) {
+            priceTextView.setText(String.format(Locale.getDefault(), "%d ₽", totalPrice));
         } else {
-//          removeFromBasket(analyzes.getId_analyzes(), userId);
+            priceTextView.setText("0 ₽");
         }
     }
+
     public void updateBasket(int id_analyzes, String id_client){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
         UpdateBasket updateBasket = new UpdateBasket(id_analyzes, id_client);

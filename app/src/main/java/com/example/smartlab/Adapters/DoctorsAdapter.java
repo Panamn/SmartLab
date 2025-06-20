@@ -18,6 +18,7 @@ import com.example.smartlab.DescriptionDoctorsActivity;
 import com.example.smartlab.Models.Doctors;
 import com.example.smartlab.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.ViewHolder> {

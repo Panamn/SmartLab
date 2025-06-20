@@ -21,6 +21,7 @@ import com.example.smartlab.Models.AuthResponse;
 import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.LoginRequest;
 import com.example.smartlab.Models.ProfileUpdate;
+import com.example.smartlab.Models.UpdateClient;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -185,29 +186,7 @@ public class RegistrationActivity extends AppCompatActivity {
         repeatPasswordEditText.setError(null);
         return true;
     }
-    public void updateProfile(String email){
-        SupaBaseClient supaBaseClient = new SupaBaseClient();
-        ProfileUpdate profileUpdate = new ProfileUpdate(email, 2);
-        supaBaseClient.updateProfile(profileUpdate, new SupaBaseClient.SBC_Callback() {
-            @Override
-            public void onFailure(IOException e) {
-                runOnUiThread(() -> {
-                    Log.e("updateProfile:onFailure", e.getLocalizedMessage());
-                });
 
-            }
-
-            @Override
-            public void onResponse(String responseBody) {
-                runOnUiThread(() -> {
-                    Log.e("updateProfile:onResponse", responseBody);
-                    startActivity(new Intent(RegistrationActivity.this, PinActivity.class));
-                    finish();
-                });
-            }
-        });
-
-    }
     private void registerUser(String email, String password) {
         SupaBaseClient supaBaseClient = new SupaBaseClient();
         LoginRequest loginRequest = new LoginRequest(email, password);
@@ -235,14 +214,33 @@ public class RegistrationActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("uuid_user", auth.getUser().getId());
                     editor.apply();
-
-                    updateProfile(email);
                     ASession.setLoggedIn(true);
-
                     Log.e("registerUser:onResponse", auth.getUser().getId());
-
+                    String id = auth.getUser().getId();
+                    updateClient(id);
                 });
             }
         });
+    }
+    public void updateClient(String id){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        UpdateClient updateClient = new UpdateClient(id);
+        supaBaseClient.updateClient(updateClient, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("updateClient:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("updateClient:onResponse", responseBody);
+                });
+            }
+        });
+
     }
 }

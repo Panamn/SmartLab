@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView imageUserView;
     private ASession aSession;
     private Button exitButton, cardButton, recordsButton;
+    private ImageButton buttonNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
         aSession = new ASession(this);
         exitButton = findViewById(R.id.buttonExitSession);
         recordsButton = findViewById(R.id.recordsDoctorsButton);
+        buttonNotification = findViewById(R.id.buttonNotification);
+        buttonNotification.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, NotificationActivity.class)));
         recordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

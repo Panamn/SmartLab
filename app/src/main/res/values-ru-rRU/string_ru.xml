@@ -32,6 +32,7 @@
     <string name="basket">Корзина</string>
     <string name="profile">Профиль</string>
     <string name="your_notes">Ваши записи</string>
+    <string name="your_notifications">Уведомления</string>
 
     <string name="records_text_1">Вы записаны на прием к врачу</string>
     <string name="records_text_2">ФИО: </string>
@@ -46,9 +47,11 @@
     <string name="text_doctors_description_date_1">Выберите дату</string>
     <string name="text_doctors_description_date_2">Выберите время</string>
 
+    <string name="recover">Восстановление пароля</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="text_login_1">Войдите, чтобы пользоваться функциями приложения</string>
     <string name="email">E-mail</string>
+    <string name="phone">Телефон</string>
     <string name="email2">example@mail.ru</string>
     <string name="password">Пароль</string>
     <string name="password2">пароль</string>
@@ -66,7 +69,9 @@
     <string name="input_pin">Введите пин-код</string>
 
     <string name="text_email_code_1">Введите код из E-mail</string>
-    <string name="text_email_code_2">Отправить код повторно можно \n будет через {n} секунд</string>
+    <string name="text_email_code_2">Отправить код повторно можно \n будет через</string>
+    <string name="text_email_code_22">секунд</string>
+    <string name="text_email_code_3">Отправить код повторно</string>
 
     <string name="text_validate_1">Требуется электронная почта</string>
     <string name="text_validate_2">Пожалуйста, введите действительный адрес электронной почты</string>
@@ -97,6 +102,10 @@
     </string-array>
     <string name="gender_man">мужской</string>
 
+
+    <string name="profile_card_1">МедКарта</string>
+    <string name="profile_card_2">Личные данные</string>
+    <string name="profile_card_3">Восстановление</string>
     <string name="profile_card_name">Карта пациента</string>
     <string name="profile_card_name_1">Имя</string>
     <string name="profile_card_name_2">Отчество</string>
@@ -115,6 +124,7 @@
     <string name="text_price">Цена, руб.</string>
     <string name="text_term">Срок выполнения</string>
     <string name="text_categories">Категории</string>
+    <string name="text_rating">Рейтинг</string>
 
     <string name="text_from">От</string>
     <string name="text_before">До</string>
@@ -140,7 +150,66 @@
 
     <string name="text_sum">Сумма</string>
     <string name="text_buy_button">Перейти к оформлению заказа</string>
+    <string name="text_basket_button">В корзину</string>
 
     <string name="text_delete_1">Подтверждение удаления</string>
     <string name="text_delete_2">Вы уверены, что хотите очистить всю корзину?</string>
+    <string name="text_delete_3">Вы уверены, что хотите удалить?</string>
+
+    <string name="text_filter_1">цена от </string>
+    <string name="text_filter_2">цена до </string>
+    <string name="text_filter_3">рейтинг от </string>
+    <string name="text_filter_3_3">срок выполнения:</string>
+    <string name="text_filter_4">специализация</string>
+    <string name="text_filter_4_4">категория</string>
+
+    <string name="text_filter_5">Фильтрация</string>
+    <string name="text_filter_6">Фильтр: </string>
+
+    <string name="text_rub">руб.</string>
+
+    <string name="text_buy_1">Оформление заказа</string>
+    <string name="text_buy_2">Адрес *</string>
+    <string name="text_buy_1_button">Введите ваш адрес</string>
+    <string name="text_buy_3">Дата и время*</string>
+    <string name="text_buy_2_button">Выберите дату и время</string>
+    <string name="text_buy_4">Телефон *</string>
+    <string name="text_buy_2_edit">Введите телефон</string>
+    <string name="text_buy_5">Комментарий</string>
+    <string name="text_buy_6">Можете оставить свои пожелания</string>
+    <string name="text_buy_3_button">Заказать</string>
+
+    <string name="text_address_1">Ваш адрес</string>
+    <string name="text_address_2">Город(область)</string>
+    <string name="text_address_3">Улица</string>
+    <string name="text_address_4">Квартира</string>
+    <string name="text_address_5">Подъезд</string>
+    <string name="text_address_6">Этаж</string>
+
+    <string name="text_address_1_edit">Введите город(область)</string>
+    <string name="text_address_2_edit">Введите свою улицу</string>
+    <string name="text_address_3_edit">Номер</string>
+
+    <string name="text_address_3_text">Сохранить этот адрес?</string>
+    <string name="text_address_3_button">Подтвердить</string>
+
+    <string name="text_buy1">Связываемся с банком...</string>
+    <string name="text_buy2">Производим оплату...</string>
+    <string name="text_buy3">Оплата</string>
+    <string name="text_buy4">Ваш заказ успешно оплачен!</string>
+
+    <string name="text_buy_4_1">Чек покупки</string>
+    <string name="text_buy_4_2">На главную</string>
+
+    <string name="text_validate_error">Неверный код</string>
+    <string name="new_password">Введите новый пароль</string>
+
+    <string name="text_notification_1">Вы записались на прием</string>
+    <string name="text_notification_1_1">Вы сделали заказ</string>
+    <string name="text_notification_2">Специализация:</string>
+    <string name="text_notification_2_1">Анализы:</string>
+    <string name="text_notification_3">Доктор:</string>
+    <string name="text_notification_4">Дата и время:</string>
+    <string name="text_notification_5">На сумму:</string>
+
 </resources>

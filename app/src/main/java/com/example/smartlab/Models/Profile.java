@@ -3,16 +3,17 @@ package com.example.smartlab.Models;
 import java.util.Date;
 
 public class Profile {
-    public String id;
-    public String full_name;
-    public String avatar_url;
-    public String sate_of_birth;
-    public String phone;
-    public int role;
-    public String gender;
+    private String id;
+    private String full_name;
+    private String avatar_url;
+    private String sate_of_birth;
+    private String phone;
+    private int role;
+    private String gender;
+    private String address;
 
 
-    public Profile(String id, String full_name, String avatar_url, String sate_of_birth, String phone, int role, String gender) {
+    public Profile(String id, String full_name, String avatar_url, String sate_of_birth, String phone, int role, String gender, String address) {
         this.id = id;
         this.full_name = full_name;
         this.avatar_url = avatar_url;
@@ -20,6 +21,7 @@ public class Profile {
         this.phone = phone;
         this.role = role;
         this.gender = gender;
+        this.address = address;
     }
 
     public String getId() {
@@ -76,5 +78,13 @@ public class Profile {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -30,41 +30,18 @@ public class AnalyzesAdapter extends RecyclerView.Adapter<AnalyzesAdapter.ViewHo
     private Context context;
     private List<Analyzes> analyzesList;
     private OnItemClickListener listener;
-    private Set<Integer> itemsInCart = new HashSet<>();
-    SupaBaseClient supaBaseClient;
 
     public interface OnItemClickListener {
         void onItemClick(Analyzes analyzes);
-        void onAddToCartClick(Analyzes analyzes, boolean addToCart);
+        void onAddToCartClick(Analyzes analyzes);
     }
 
     public AnalyzesAdapter(Context context, List<Analyzes> analyzesList, OnItemClickListener listener) {
         this.context = context;
         this.analyzesList = analyzesList;
         this.listener = listener;
-        this.supaBaseClient = new SupaBaseClient();
-        loadCartItems();
     }
-    private void loadCartItems() {
 
-        supaBaseClient.fetchAllBasket(new SupaBaseClient.SBC_Callback() {
-            @Override
-            public void onFailure(IOException e) {
-                    Log.e("getAllBasket:onFailure", e.getLocalizedMessage());
-            }
-
-            @Override
-            public void onResponse(String responseBody) {
-                    Log.e("getAllBasket:onResponse", responseBody);
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<List<Basket>>(){}.getType();
-                    List<Basket> basketList = gson.fromJson(responseBody, type);
-                    for (Basket item : basketList) {
-                        itemsInCart.add(item.getId_analyzes());
-                    }
-            }
-        });
-    }
     @NonNull
     @Override
     public AnalyzesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -75,7 +52,7 @@ public class AnalyzesAdapter extends RecyclerView.Adapter<AnalyzesAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull AnalyzesAdapter.ViewHolder holder, int position) {
         Analyzes analyzes = analyzesList.get(position);
-        boolean isInCart = itemsInCart.contains(analyzes.getId_analyzes());
+
 
         holder.TextTitleAnalyzes.setText(analyzes.getTitle());
 
@@ -89,29 +66,14 @@ public class AnalyzesAdapter extends RecyclerView.Adapter<AnalyzesAdapter.ViewHo
             listener.onItemClick(analyzes);
         });
 
+
         holder.analyzesButton.setOnClickListener(v -> {
-            boolean newState = !isInCart;
-            if (newState) {
-                itemsInCart.add(analyzes.getId_analyzes());
-            } else {
-                itemsInCart.remove(analyzes.getId_analyzes());
-            }
-            updateButtonAppearance(holder.analyzesButton, newState);
-            listener.onAddToCartClick(analyzes, newState);
+            listener.onAddToCartClick(analyzes);
         });
 
     }
-    private void updateButtonAppearance(Button button, boolean isInCart) {
-        if (isInCart) {
-            button.setText("Убрать");
-            button.setBackgroundResource(R.drawable.blue_button_background_radius);
-            button.setTextColor(ContextCompat.getColor(context, R.color.blue_button));
-        } else {
-            button.setText("Добавить");
-            button.setBackgroundResource(R.drawable.blue_button_background);
-            button.setTextColor(ContextCompat.getColor(context, R.color.white));
-        }
-    }
+
+
     private String formatDays(int days) {
         if (days == 1) return "1 день";
         if (days >= 2 && days <= 4) return days + " дня";
@@ -133,8 +95,5 @@ public class AnalyzesAdapter extends RecyclerView.Adapter<AnalyzesAdapter.ViewHo
             analyzesButton = itemView.findViewById(R.id.analyzesButton);
         }
     }
-    public void updateCartItems(Set<Integer> cartItems) {
-        this.itemsInCart.clear();
-        this.itemsInCart.addAll(cartItems);
-    }
+
 }

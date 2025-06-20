@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,11 +31,16 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.OnItemClickListener{
 
     private Button buttonAnalyzes, buttonDoctors;
     private RecyclerView recyclerAnalyzes, recyclerDoctors, recyclerViewNews;
+    private TextView priceTextView;
+    private int totalPrice = 0;
+    private RelativeLayout relative;
+    private Button basketButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,9 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
+        basketButton = findViewById(R.id.basketButton);
+        relative = findViewById(R.id.relative);
+        priceTextView = findViewById(R.id.priceTextView);
         buttonAnalyzes = findViewById(R.id.buttonAnalyzes);
         buttonDoctors = findViewById(R.id.buttonDoctors);
         recyclerAnalyzes = findViewById(R.id.recyclerAnalyzes);
@@ -50,9 +59,12 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
 
         buttonAnalyzes.setOnClickListener(view -> getAllAnalyzes());
         buttonDoctors.setOnClickListener(v -> getAllDoctors());
+        basketButton.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, BasketActivity.class)));
+
         getAllAnalyzes();
         getAllNews();
         ImageButClickMenu();
+
     }
 
     private void getAllAnalyzes(){
@@ -107,6 +119,7 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
 
                     recyclerDoctors.setVisibility(View.VISIBLE);
                     recyclerAnalyzes.setVisibility(View.GONE);
+                    relative.setVisibility(View.GONE);
                     buttonDoctors.setBackgroundResource(R.drawable.blue_button_background);
                     buttonDoctors.setTextColor(ContextCompat.getColor(HomeActivity.this, R.color.white));
 
@@ -164,17 +177,25 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
 
     @Override
     public void onItemClick(Analyzes analyzes) {
-
+        AnalyzeDetailFragment fragment = new AnalyzeDetailFragment();
+        fragment.setAnalyzeData(analyzes);
+        fragment.show(getSupportFragmentManager(), "analyze_detail");
     }
 
     @Override
-    public void onAddToCartClick(Analyzes analyzes, boolean addToCart) {
+    public void onAddToCartClick(Analyzes analyzes) {
         String userId = DataBinding.getUuidUser();
 
-        if (addToCart) {
-            updateBasket(analyzes.getId_analyzes(), userId);
+        updateBasket(analyzes.getId_analyzes(), userId);
+        totalPrice += analyzes.getPrice();
+        relative.setVisibility(View.VISIBLE);
+        updateTotalPrice();
+    }
+    private void updateTotalPrice() {
+        if (totalPrice > 0) {
+            priceTextView.setText(String.format(Locale.getDefault(), "%d ₽", totalPrice));
         } else {
-//            removeFromBasket(analyzes.getId_analyzes(), userId);
+            priceTextView.setText("0 ₽");
         }
     }
     public void updateBasket(int id_analyzes, String id_client){

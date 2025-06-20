@@ -1,14 +1,13 @@
 package com.example.smartlab.Models;
 
 public class InputEmail {
-    private String email;
     private String type;
+    private String email;
 
-    public InputEmail(String email, String type) {
-        this.email = email;
+    public InputEmail(String type, String email) {
         this.type = type;
+        this.email = email;
     }
-
 
     public String getType() {
         return type;
@@ -25,5 +24,6 @@ public class InputEmail {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
 
