@@ -195,7 +195,7 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onFailure(IOException e) {
                 runOnUiThread(() -> {
                     Log.e("registerUser:onFailure", e.getLocalizedMessage());
-                    Toast.makeText(RegistrationActivity.this, getString(R.string.text_validate_5), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.text_validate_6), Toast.LENGTH_LONG).show();
                 });
 
             }
@@ -238,6 +238,8 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
                     Log.e("updateClient:onResponse", responseBody);
+                    startActivity(new Intent(RegistrationActivity.this, PinActivity.class));
+                    finish();
                 });
             }
         });

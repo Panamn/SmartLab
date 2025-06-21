@@ -77,6 +77,7 @@
     <string name="text_validate_3">Password is required</string>
     <string name="text_validate_4">Password must be at least 6 characters</string>
     <string name="text_validate_5">User not found. Please check your credentials</string>
+    <string name="text_validate_6">The user is already registered</string>
 
     <string name="text_validate1">Email is required</string>
     <string name="text_validate2">Please enter a valid email</string>

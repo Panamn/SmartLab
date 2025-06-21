@@ -78,6 +78,7 @@
     <string name="text_validate_3">Требуется ввести пароль</string>
     <string name="text_validate_4">Пароль должен содержать не менее 6 символов</string>
     <string name="text_validate_5">Пользователь не найден. Пожалуйста, проверьте свои учетные данные</string>
+    <string name="text_validate_6">Пользователь уже зарегистрирован</string>
 
     <string name="text_validate1">Требуется электронная почта</string>
     <string name="text_validate2">Пожалуйста, введите действительный адрес электронной почты</string>
