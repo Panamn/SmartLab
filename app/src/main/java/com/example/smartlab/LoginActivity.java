@@ -153,9 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("loginUser:onFailure", e.getLocalizedMessage());
                     Toast.makeText(LoginActivity.this, getString(R.string.text_validate_5), Toast.LENGTH_LONG).show();
                 });
-
             }
-
             @Override
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
@@ -179,7 +177,6 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, PinActivity.class));
                     Log.e("loginUser:onResponse", auth.getUser().getId());
                     finish();
-
                 });
             }
         });
