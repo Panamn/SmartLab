@@ -2,12 +2,16 @@ package com.example.smartlab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,18 +56,23 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
     private RelativeLayout relative;
     private Button basketButton;
     private int id_additions = 0;
+    private Button searchEditText;
+    private List<Analyzes> analyzesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_analyzes);
-
+    try {
         basketButton = findViewById(R.id.basketButton);
         relative = findViewById(R.id.relative);
         priceTextView = findViewById(R.id.priceTextView);
         recyclerViewAnalyzes = findViewById(R.id.recyclerViewAnalyzes);
         textFiltering = findViewById(R.id.textFiltering);
+        searchEditText = findViewById(R.id.EditTextSearch);
+        getCategoriesAnalyzes();
+        getAllAnalyzes();
         textFiltering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,15 +85,27 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
                 startActivity(new Intent(AnalyzesActivity.this, BasketActivity.class));
             }
         });
-        getCategoriesAnalyzes();
+
         ImageButMenu();
         ImageButClickMenu();
-        getAllAnalyzes();
+
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AnalyzesActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
     }
     @Override
     public void onItemClick(Analyzes analyzes) {
         AnalyzeDetailFragment fragment = new AnalyzeDetailFragment();
         fragment.setAnalyzeData(analyzes);
+        totalPrice += analyzes.getPrice();
         fragment.show(getSupportFragmentManager(), "analyze_detail");
     }
 
@@ -304,7 +325,7 @@ public class AnalyzesActivity extends AppCompatActivity implements AnalyzesAdapt
                     Log.e("getAllAnalyzes:onResponse", responseBody);
                     Gson gson = new Gson();
                     Type type = new TypeToken<List<Analyzes>>(){}.getType();
-                    List<Analyzes> analyzesList = gson.fromJson(responseBody, type);
+                    analyzesList = gson.fromJson(responseBody, type);
                     AnalyzesAdapter analyzesAdapter = new AnalyzesAdapter(getApplicationContext(), analyzesList, AnalyzesActivity.this);
                     recyclerViewAnalyzes.setAdapter(analyzesAdapter);
                     recyclerViewAnalyzes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

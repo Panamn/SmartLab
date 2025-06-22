@@ -31,6 +31,7 @@ public class NewPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
 
+            try {
         token = getIntent().getStringExtra("access_token");
         email = getIntent().getStringExtra("email");
         passwordEditText = findViewById(R.id.passwordEditText);
@@ -53,6 +54,9 @@ public class NewPasswordActivity extends AppCompatActivity {
                 changePassword(token, email);
             }
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
 
     }
     private void updateButton(boolean isActive) {

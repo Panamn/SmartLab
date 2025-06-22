@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.smartlab.Models.InputEmail;
 import com.example.smartlab.Models.Profile;
 import com.example.smartlab.Models.ProfileUpdateCard;
 import com.example.smartlab.Models.ProfileUpdatePhone;
@@ -31,30 +32,31 @@ import java.util.Locale;
 
 public class ProfileCardActivity extends AppCompatActivity {
     private ImageView imageUserView;
-    private EditText firstNameEditText, middleNameEditText, lastNameEditText, birthDateEditText, phoneNameEditText, emailNameEditText;
+    private EditText firstNameEditText, middleNameEditText, lastNameEditText,phoneNameEditText;
     private Spinner genderSpinner;
     private Calendar birthDateCalendar;
-    private Button saveButton, updateButton, recoverButton;
+    private Button saveButton, updateButtonPhone, recoverButton, birthDateEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_card);
 
+            try {
         imageUserView = findViewById(R.id.imageUser);
         firstNameEditText = findViewById(R.id.firstNameEditText);
         middleNameEditText = findViewById(R.id.middleNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         birthDateEditText = findViewById(R.id.birthDateEditText);
         phoneNameEditText = findViewById(R.id.phoneNameEditText);
-        emailNameEditText = findViewById(R.id.emailNameEditText);
         genderSpinner = findViewById(R.id.genderSpinner);
         saveButton = findViewById(R.id.saveButton);
-        updateButton = findViewById(R.id.updateButton);
+        updateButtonPhone = findViewById(R.id.updateButtonPhone);
         recoverButton = findViewById(R.id.recoverButton);
         birthDateCalendar = Calendar.getInstance();
         setupGenderSpinner();
         getProfileCard();
+
 
         birthDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +65,17 @@ public class ProfileCardActivity extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        updateButtonPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String phone = phoneNameEditText.getText().toString().trim();
-                String email = emailNameEditText.getText().toString().trim();
                 updateProfilePhone(phone);
+            }
+        });
+        recoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileCardActivity.this, EmailInputActivity.class));
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +103,12 @@ public class ProfileCardActivity extends AppCompatActivity {
         });
         ImageButMenu();
         ImageButClickMenu();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
+
     private void showDatePickerDialog() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,

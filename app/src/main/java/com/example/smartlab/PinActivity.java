@@ -37,6 +37,7 @@ public class PinActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pin);
 
+            try {
         titleTextView = findViewById(R.id.titleTextView);
         dots = new ImageView[]{
                 findViewById(R.id.dot1),
@@ -63,6 +64,10 @@ public class PinActivity extends AppCompatActivity {
         }
 
         setupNumberButtons();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

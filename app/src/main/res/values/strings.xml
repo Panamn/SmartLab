@@ -3,6 +3,7 @@
 
     <string name="skip">Skip</string>
     <string name="complete">Complete</string>
+    <string name="confirm">Confirm</string>
     <string name="analyzes">Analyzes</string>
     <string name="text_onboard_1">Express collection and receipt of samples</string>
     <string name="notifications">Notifications</string>
@@ -10,7 +11,7 @@
     <string name="monitoring">Monitoring</string>
     <string name="text_onboard_3">Our doctors are always monitoring\nyour health indicators</string>
 
-    <string name="search">Search</string>
+    <string name="search">.     Search</string>
     <string name="text_home_news">Promotions and news</string>
     <string name="doctors">Doctors</string>
     <string name="text_item_button_add">Add</string>
@@ -47,6 +48,7 @@
     <string name="text_doctors_description_date_2">Choose a time</string>
 
     <string name="recover">Password Recovery</string>
+    <string name="updating">Updating mail</string>
     <string name="welcome">Welcome!</string>
     <string name="text_login_1">Log in to use the app\'s features</string>
     <string name="email">E-mail</string>
@@ -66,6 +68,7 @@
     <string name="create_pin_text">To protect your personal data</string>
 
     <string name="input_pin">Enter the PIN code</string>
+    <string name="input_updating_email">Enter a new email address</string>
 
     <string name="text_email_code_1">Enter the code from the E-mail</string>
     <string name="text_email_code_2">You can send the code again \n it will be in</string>
@@ -212,4 +215,10 @@
     <string name="text_notification_4">Date and time:</string>
     <string name="text_notification_5">For the amount of:</string>
 
+    <string name="text_buy_validate_1">Enter the address</string>
+    <string name="text_buy_validate_2">Select the date and time</string>
+    <string name="text_buy_validate_3">Enter the correct phone number</string>
+
+    <string name="text_not_notification">There are no notifications</string>
+    <string name="text_not_feature">This feature is currently unavailable.\nThe feature will be available in the next updates!</string>
 </resources>

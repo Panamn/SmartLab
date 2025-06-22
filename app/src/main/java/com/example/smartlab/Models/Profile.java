@@ -1,5 +1,7 @@
 package com.example.smartlab.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class Profile {
@@ -7,6 +9,7 @@ public class Profile {
     private String full_name;
     private String avatar_url;
     private String sate_of_birth;
+    @SerializedName("phone")
     private String phone;
     private int role;
     private String gender;

@@ -5,19 +5,18 @@ public class Notification {
     private String title;
     private String text;
     private String period_of_relevance;
-    private String date_of_creation;
     private String id_profile;
     private String name_doctors;
     private String notification_type;
     private float sum;
 
 
-    public Notification(int id_notifications, String title, String text, String period_of_relevance, String date_of_creation, String id_profile, String name_doctors, String notification_type, float sum) {
+    public Notification(int id_notifications, String title, String text, String period_of_relevance, String id_profile, String name_doctors, String notification_type, float sum) {
         this.id_notifications = id_notifications;
         this.title = title;
         this.text = text;
         this.period_of_relevance = period_of_relevance;
-        this.date_of_creation = date_of_creation;
+
         this.id_profile = id_profile;
         this.name_doctors = name_doctors;
         this.notification_type = notification_type;
@@ -56,13 +55,6 @@ public class Notification {
         this.period_of_relevance = period_of_relevance;
     }
 
-    public String getDate_of_creation() {
-        return date_of_creation;
-    }
-
-    public void setDate_of_creation(String date_of_creation) {
-        this.date_of_creation = date_of_creation;
-    }
 
     public String getId_profile() {
         return id_profile;

@@ -35,9 +35,15 @@ public class RecordsDoctorsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_records_with_doctors);
+
+            try {
         recyclerRecords = findViewById(R.id.recyclerRecords);
 
         getAllRecords();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
     private void getAllRecords(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

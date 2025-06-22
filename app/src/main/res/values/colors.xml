@@ -17,4 +17,5 @@
     <color name="blue_button_off">#C7D2F9</color>
     <color name="gray_primary">#EEEEEE</color>
     <color name="gray_text">#757575</color>
+    <color name="red">#FF0000</color>
 </resources>

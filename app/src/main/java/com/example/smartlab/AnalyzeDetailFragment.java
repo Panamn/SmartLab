@@ -1,7 +1,6 @@
 package com.example.smartlab;
 
 import android.content.res.ColorStateList;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,27 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.smartlab.Models.Analyzes;
-import com.example.smartlab.Models.BasketId;
 import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.UpdateBasket;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class AnalyzeDetailFragment extends BottomSheetDialogFragment {
 
@@ -81,7 +73,7 @@ public class AnalyzeDetailFragment extends BottomSheetDialogFragment {
                     isInCart = true;
                     updateBasket(analyze.getId_analyzes(), userId);
 
-                    int color = ContextCompat.getColor(requireContext(), R.color.blue_button_off);
+                    int color = ContextCompat.getColor(requireContext(), R.color.blue_button_off_b);
                     ColorStateList colorStateList = ColorStateList.valueOf(color);
                     addButton.setText(getString(R.string.text_item_button_remove));
                     addButton.setBackgroundTintList(colorStateList);

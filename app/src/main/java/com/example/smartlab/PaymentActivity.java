@@ -16,6 +16,7 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
+            try {
         statusTextView = findViewById(R.id.statusTextView);
 
         new Handler().postDelayed(() -> {
@@ -26,5 +27,9 @@ public class PaymentActivity extends AppCompatActivity {
                 finish();
             }, 2000);
         }, 4000);
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,13 +42,14 @@ public class DoctorsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerDoctorsAll;
     private ImageButton textFiltering;
-
+    private Button searchEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_doctors);
 
+            try {
         recyclerDoctorsAll = findViewById(R.id.recyclerDoctorsAll);
         textFiltering = findViewById(R.id.textFiltering);
         textFiltering.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +64,18 @@ public class DoctorsActivity extends AppCompatActivity {
         ImageButMenu();
         ImageButClickMenu();
         getCategoriesAllSpecialization();
+        searchEditText = findViewById(R.id.EditTextSearch);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DoctorsActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
 
     }
 

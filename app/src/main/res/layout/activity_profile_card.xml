@@ -131,13 +131,15 @@
             android:textColor="@color/black"
             android:layout_marginBottom="4dp"/>
 
-        <EditText
+        <Button
             android:id="@+id/birthDateEditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:padding="10dp"
             android:background="@drawable/edittext_background"
             android:textSize="18sp"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/black"
             android:layout_marginBottom="16dp"/>
 
         <TextView
@@ -195,22 +197,7 @@
                 android:textColor="@color/black"
                 android:layout_marginBottom="4dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="4dp"/>
 
-        <EditText
-            android:id="@+id/emailNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:background="@drawable/edittext_background"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -228,14 +215,15 @@
             android:textSize="18sp"
             android:layout_marginBottom="16dp"/>
         <Button
-            android:id="@+id/updateButton"
+            android:id="@+id/updateButtonPhone"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:text="@string/profile_card_name_6_button"
             android:textSize="18sp"
             style="@style/BlueButtonStyle"
             android:textColor="@color/white"
             android:padding="12dp"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"

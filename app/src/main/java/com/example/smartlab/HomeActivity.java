@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
     private TextView priceTextView;
     private int totalPrice = 0;
     private RelativeLayout relative;
-    private Button basketButton;
+    private Button basketButton, searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
+
+                try {
         basketButton = findViewById(R.id.basketButton);
         relative = findViewById(R.id.relative);
         priceTextView = findViewById(R.id.priceTextView);
@@ -64,9 +68,21 @@ public class HomeActivity extends AppCompatActivity implements AnalyzesAdapter.O
         getAllAnalyzes();
         getAllNews();
         ImageButClickMenu();
+        searchEditText = findViewById(R.id.EditTextSearch);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+                } catch (Exception e) {
+                    ErrorHandler.handleError(this, e);
+                }
+
 
     }
-
     private void getAllAnalyzes(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();
         supaBaseClient.fetchAllAnalyzes(new SupaBaseClient.SBC_Callback() {

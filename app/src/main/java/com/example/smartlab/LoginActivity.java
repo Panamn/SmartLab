@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+            try {
         aSession = new ASession(this);
 
         emailEditText = findViewById(R.id.emailEditText);
@@ -88,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
         registrationText.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
 
     private void updateButtonState() {

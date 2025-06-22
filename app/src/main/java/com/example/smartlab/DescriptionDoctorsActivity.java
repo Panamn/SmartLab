@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.smartlab.Adapters.TimeAdapter;
+import com.example.smartlab.Models.AddNotificationBuyAnalyzes;
+import com.example.smartlab.Models.AddNotificationRecords;
 import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.Records;
 import com.example.smartlab.Models.UpdateBasket;
@@ -47,12 +49,14 @@ public class DescriptionDoctorsActivity extends AppCompatActivity {
     private String selectedDate;
     private String selectedDateFormat;
     private String selectedTime;
+    private  String reception_time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_doctors_description);
 
+            try {
         fullNameTextView = findViewById(R.id.fullNameTextView);
         specializationTextView = findViewById(R.id.specializationTextView);
         experienceTextView = findViewById(R.id.experienceTextView);
@@ -83,6 +87,10 @@ public class DescriptionDoctorsActivity extends AppCompatActivity {
         dateButton.setOnClickListener(v -> showDatePickerDialog());
         settingDate();
         loadingData();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
         private void settingDate(){
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM", new Locale(getString(R.string.text_ru_en)));
@@ -159,13 +167,14 @@ public class DescriptionDoctorsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String id_doctors = intent.getStringExtra("doctor_id");
         String id_user = DataBinding.getUuidUser();
-        String reception_time = selectedDateFormat + " " + selectedTime + ":00";
+        reception_time = selectedDateFormat + " " + selectedTime + ":00";
 
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.text_description_time_2))
                 .setMessage(getString(R.string.text_description_time_3) + " " + selectedDate + " " + getString(R.string.text_in) +" " + selectedTime + "?")
                 .setPositiveButton(getString(R.string.text_yes), (dialog, which) -> {
                     addRecords(reception_time, getString(R.string.text_description_time_6), id_doctors, id_user);
+                    addNotification();
                     finish();
                 })
                 .setNegativeButton(getString(R.string.text_no), (dialog, which) -> {
@@ -194,5 +203,35 @@ public class DescriptionDoctorsActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void addNotification(){
+        SupaBaseClient supaBaseClient = new SupaBaseClient();
+        Intent intent = getIntent();
+        String doctorName = intent.getStringExtra("doctor_name");
+        String specialization = intent.getStringExtra("doctor_specialization");
+        AddNotificationRecords addNotificationRecords = new AddNotificationRecords(
+                getString(R.string.text_notification_1),
+                specialization,
+                reception_time,
+                DataBinding.getUuidUser(),
+                doctorName,
+                "make_an_appointment"
+        );
+        supaBaseClient.addNotificationRecords(addNotificationRecords, new SupaBaseClient.SBC_Callback() {
+            @Override
+            public void onFailure(IOException e) {
+                runOnUiThread(() -> {
+                    Log.e("createOrderItem:onFailure", e.getLocalizedMessage());
+                });
+
+            }
+
+            @Override
+            public void onResponse(String responseBody) {
+                runOnUiThread(() -> {
+                    Log.e("createOrderItem:onResponse", responseBody);
+                });
+            }
+        });
     }
 }

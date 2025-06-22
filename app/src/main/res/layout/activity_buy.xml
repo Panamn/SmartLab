@@ -108,7 +108,7 @@
             android:id="@+id/phoneEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_buy_2_edit"
+            android:hint="@string/text_buy_2_edit"
             android:textSize="16sp"
             android:gravity="left"
             android:textColor="@color/gray"
@@ -137,7 +137,7 @@
             android:id="@+id/commentEditText"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:text="@string/text_buy_6"
+            android:hint="@string/text_buy_6"
             android:textSize="16sp"
             android:gravity="left"
             android:textColor="@color/gray"
@@ -154,9 +154,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentEditText"
             android:background="@color/white">
 
             <LinearLayout
@@ -167,7 +168,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1 анализ"
+                    android:text="@string/text_sum"
                     android:textSize="25sp"
                     android:textColor="@color/black"
                     android:textStyle="bold"/>

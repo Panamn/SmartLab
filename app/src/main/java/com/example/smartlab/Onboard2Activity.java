@@ -20,6 +20,7 @@ public class Onboard2Activity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_onboard_2);
 
+            try {
         View rootView = findViewById(android.R.id.content);
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +36,9 @@ public class Onboard2Activity extends AppCompatActivity {
                 startActivity(new Intent(Onboard2Activity.this, LoginActivity.class));
             }
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
 
     }
     private void navigateToHome() {

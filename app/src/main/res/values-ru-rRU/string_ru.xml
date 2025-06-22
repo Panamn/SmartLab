@@ -4,6 +4,7 @@
 
     <string name="skip">Пропустить</string>
     <string name="complete">Завершить</string>
+    <string name="confirm">Подтвердить</string>
     <string name="analyzes">Анализы</string>
     <string name="text_onboard_1">Экспресс сбор и получение проб</string>
     <string name="notifications">Уведомления</string>
@@ -11,7 +12,7 @@
     <string name="monitoring">Мониторинг</string>
     <string name="text_onboard_3">Наши врачи всегда наблюдают\nза вашими показателями здоровья</string>
 
-    <string name="search">Поиск</string>
+    <string name="search">.     Поиск</string>
     <string name="text_home_news">Акции и новости</string>
     <string name="doctors">Врачи</string>
     <string name="text_item_button_add">Добавить</string>
@@ -48,6 +49,7 @@
     <string name="text_doctors_description_date_2">Выберите время</string>
 
     <string name="recover">Восстановление пароля</string>
+    <string name="updating">Обновление почты</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="text_login_1">Войдите, чтобы пользоваться функциями приложения</string>
     <string name="email">E-mail</string>
@@ -67,6 +69,7 @@
     <string name="create_pin_text">Для защиты ваших персональных данных</string>
 
     <string name="input_pin">Введите пин-код</string>
+    <string name="input_updating_email">Введите новую почту</string>
 
     <string name="text_email_code_1">Введите код из E-mail</string>
     <string name="text_email_code_2">Отправить код повторно можно \n будет через</string>
@@ -213,4 +216,10 @@
     <string name="text_notification_4">Дата и время:</string>
     <string name="text_notification_5">На сумму:</string>
 
+    <string name="text_buy_validate_1">Введите адрес</string>
+    <string name="text_buy_validate_2">Выберите дату и время</string>
+    <string name="text_buy_validate_3">Введите корректный номер телефона (+7 xxx xxx xx xx)</string>
+
+    <string name="text_not_notification">Нет уведомлений</string>
+    <string name="text_not_feature">В данный момент данная функция недоступна.\nФункция будет доступна в следующих обновлениях!</string>
 </resources>

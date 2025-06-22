@@ -88,7 +88,7 @@
                 android:layout_marginBottom="16dp"/>
 
 
-            <EditText
+            <Button
                 android:id="@+id/birthDateEditText"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -96,6 +96,8 @@
                 android:hint="@string/profile_card_name_4"
                 android:background="@drawable/edittext_background"
                 android:textSize="18sp"
+                android:textColor="@color/black"
+                android:gravity="left|center_vertical"
                 android:layout_marginBottom="16dp"/>
 
 
@@ -115,7 +117,7 @@
                 android:text="@string/profile_card_name_6_button"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                style="@style/BlueButtonOff"
+                style="@style/BlueButtonStyle"
                 android:textColor="@color/white"
                 android:padding="12dp"/>
 

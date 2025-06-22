@@ -18,6 +18,7 @@ public class Onboard1Activity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_onboard_1);
 
+            try {
         View rootView = findViewById(android.R.id.content);
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +35,9 @@ public class Onboard1Activity extends AppCompatActivity {
             }
         });
 
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
 
 
     }

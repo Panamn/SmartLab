@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView imageUserView;
     private ASession aSession;
-    private Button exitButton, cardButton, recordsButton;
+    private Button exitButton, cardButton, recordsButton, resultAnalyzesButton, recordsDoctorsButton;
     private ImageButton buttonNotification;
 
     @Override
@@ -38,10 +39,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
+
+            try {
         aSession = new ASession(this);
         exitButton = findViewById(R.id.buttonExitSession);
         recordsButton = findViewById(R.id.recordsDoctorsButton);
         buttonNotification = findViewById(R.id.buttonNotification);
+        resultAnalyzesButton = findViewById(R.id.resultAnalyzesButton);
+        recordsDoctorsButton = findViewById(R.id.recordsDoctorsButton);
         buttonNotification.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, NotificationActivity.class)));
         recordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +71,26 @@ public class ProfileActivity extends AppCompatActivity {
         getProfileCard();
         ImageButMenu();
         ImageButClickMenu();
+        resultAnalyzesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfileActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        recordsDoctorsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfileActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
     private void getProfileCard(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

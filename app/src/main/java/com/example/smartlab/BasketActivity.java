@@ -1,6 +1,8 @@
 package com.example.smartlab;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,18 +41,22 @@ public class BasketActivity extends AppCompatActivity implements BasketAdapter.O
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_basket);
-
+            try {
         recyclerBasket = findViewById(R.id.recyclerBasket);
         imageDeleteAll = findViewById(R.id.imageDeleteAll);
         sumPriceTextView = findViewById(R.id.sumPriceTextView);
         buyButton = findViewById(R.id.buyButton);
-
+        buyButton.setEnabled(false);
+        buyButton.setAlpha(0.5f);
         buyButton.setOnClickListener(v -> startActivity(new Intent(BasketActivity.this, BuyActivity.class)));
 
         imageDeleteAllAnalyzes();
         getAllBasket();
         ImageButMenu();
         ImageButClickMenu();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
     }
     private void imageDeleteAllAnalyzes(){
         imageDeleteAll.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +98,14 @@ public class BasketActivity extends AppCompatActivity implements BasketAdapter.O
                     recyclerBasket.setAdapter(basketAdapter);
                     recyclerBasket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     updateTotal();
+                    updateBuyButton(!basketList.isEmpty());
                 });
             }
         });
+    }
+    private void updateBuyButton(boolean isEnabled) {
+        buyButton.setEnabled(isEnabled);
+        buyButton.setAlpha(isEnabled ? 1f : 0.5f);
     }
     private void getAllBasketDelete(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

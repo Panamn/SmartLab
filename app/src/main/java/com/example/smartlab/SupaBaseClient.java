@@ -2,12 +2,17 @@ package com.example.smartlab;
 
 import androidx.annotation.NonNull;
 
+import com.example.smartlab.Models.AddNotificationBuyAnalyzes;
+import com.example.smartlab.Models.AddNotificationRecords;
 import com.example.smartlab.Models.CheckEmail;
 import com.example.smartlab.Models.Client;
 import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.InputEmail;
 import com.example.smartlab.Models.LoginRequest;
+import com.example.smartlab.Models.Order;
+import com.example.smartlab.Models.OrderItem;
 import com.example.smartlab.Models.ProfileUpdate;
+import com.example.smartlab.Models.ProfileUpdateAddress;
 import com.example.smartlab.Models.ProfileUpdateCard;
 import com.example.smartlab.Models.ProfileUpdatePhone;
 import com.example.smartlab.Models.UpdateBasket;
@@ -21,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -139,8 +145,99 @@ public class SupaBaseClient {
             }
         });
     }
+    public void updateEmail(String token, String email, String newEmail, final SBC_Callback callback) {
+        MediaType mediaType = MediaType.parse("application/json");
+        String json = String.format(
+                "{\"email\":\"%s\",\"email\":\"%s\"}",
+                email, newEmail
+        );
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + AUTH_PATH + "user")
+                .put(body)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Content-Type", "application/json")
+                .build();
 
-    public void updateProfileCard(ProfileUpdateCard profile, final SBC_Callback callback){
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+
+    public void updateProfileCard(ProfileUpdateCard profileUpdateCard, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(profileUpdateCard);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "profiles?id=eq." + DataBinding.getUuidUser())
+                .patch(body)
+                .addHeader("apikey", API_KEY)
+                .addHeader("Authorization", DataBinding.getBearerToken())
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+//    public void updateUserEmail(ProfileUpdatePhone profile, final SBC_Callback callback){
+//        MediaType mediaType = MediaType.parse("application/json");
+//        Gson gson = new Gson();
+//        String json = gson.toJson(profile);
+//        RequestBody body = RequestBody.create(json, mediaType);
+//        Request request = new Request.Builder()
+//                .url(DOMAIN_NAME + AUTH_PATH + "user")
+//                .method("PUT", body)
+//                .addHeader("apikey", API_KEY)
+//                .addHeader("Authorization", "Bearer " + )
+//                .addHeader("Content-Type", "application/json")
+//                .build();
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+//                callback.onFailure(e);
+//            }
+//
+//            @Override
+//            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+//                if(response.isSuccessful()){
+//                    String responseBody = response.body().string();
+//                    callback.onResponse(responseBody);
+//                }else {
+//                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+//                }
+//            }
+//        });
+//    }
+    public void updateProfilePhone(ProfileUpdatePhone profile, final SBC_Callback callback){
         MediaType mediaType = MediaType.parse("application/json");
         Gson gson = new Gson();
         String json = gson.toJson(profile);
@@ -170,7 +267,7 @@ public class SupaBaseClient {
             }
         });
     }
-    public void updateProfilePhone(ProfileUpdatePhone profile, final SBC_Callback callback){
+    public void updateProfileAddress(ProfileUpdateAddress profile, final SBC_Callback callback){
         MediaType mediaType = MediaType.parse("application/json");
         Gson gson = new Gson();
         String json = gson.toJson(profile);
@@ -283,6 +380,124 @@ public class SupaBaseClient {
                 .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Prefer", "return=minimal")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+
+    public void addOrder(Order order, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(order);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "orders_analyzes")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void addOrderItem(List<OrderItem> orderItems, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(orderItems);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "order_structure")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void addNotificationBuyAnalyzes(AddNotificationBuyAnalyzes addNotificationBuyAnalyzes, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(addNotificationBuyAnalyzes);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "notifications")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void addNotificationRecords(AddNotificationRecords addNotificationRecords, final SBC_Callback callback){
+        MediaType mediaType = MediaType.parse("application/json");
+        Gson gson = new Gson();
+        String json = gson.toJson(addNotificationRecords);
+        RequestBody body = RequestBody.create(json, mediaType);
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "notifications")
+                .post(body)
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Content-Type", "application/json")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -681,7 +896,7 @@ public class SupaBaseClient {
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + REST_PATH + "basket?select=*,analyzes(*)&id_client=eq." + DataBinding.getUuidUser())
                 .addHeader("apikey", API_KEY)
-                .addHeader("Authorization", DataBinding.getBearerToken())
+                .addHeader("Authorization", "Bearer " + API_KEY)
                 .addHeader("Content-Type", "application/json")
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -729,6 +944,31 @@ public class SupaBaseClient {
     public void deleteBasket(String id_additions, final SBC_Callback callback){
         Request request = new Request.Builder()
                 .url(DOMAIN_NAME + REST_PATH + "basket?id_additions=eq." + id_additions)
+                .delete()
+                .addHeader("apikey", API_KEY_INSERT_DELETE)
+                .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)
+                .addHeader("Prefer", "return=minimal")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseBody = response.body().string();
+                    callback.onResponse(responseBody);
+                }else {
+                    callback.onFailure(new IOException("Ошибка сервера: " + response));
+                }
+            }
+        });
+    }
+    public void deleteNotification(String id_notification, final SBC_Callback callback){
+        Request request = new Request.Builder()
+                .url(DOMAIN_NAME + REST_PATH + "notifications?id_notifications=eq." + id_notification)
                 .delete()
                 .addHeader("apikey", API_KEY_INSERT_DELETE)
                 .addHeader("Authorization", "Bearer " + API_KEY_INSERT_DELETE)

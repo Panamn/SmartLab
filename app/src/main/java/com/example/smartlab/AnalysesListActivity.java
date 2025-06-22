@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,13 +41,14 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
     private ImageButton textFiltering;
     private int totalPrice = 0;
     private RelativeLayout relative;
-    private Button basketButton;
+    private Button basketButton, searchEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_categories_list_analyses);
 
+            try {
         basketButton = findViewById(R.id.basketButton);
         relative = findViewById(R.id.relative);
         priceTextView = findViewById(R.id.priceTextView);
@@ -54,6 +56,7 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
         categoryTitleText = findViewById(R.id.categoryTitleText);
         categoryId = getIntent().getIntExtra("category_id", 0); //-1
         categoryTitle = getIntent().getStringExtra("category_title");
+
 
         categoryTitleText.setText(getString(R.string.categories) + ": " + categoryTitle);
 
@@ -67,6 +70,18 @@ public class AnalysesListActivity extends AppCompatActivity implements AnalyzesA
                 getCategoriesAllAnalyzes();
             }
         });
+        searchEditText = findViewById(R.id.EditTextSearch);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AnalysesListActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
     }
     private void getCategoriesAllAnalyzes(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

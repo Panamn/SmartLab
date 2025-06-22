@@ -38,6 +38,7 @@ public class EmailCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_code);
 
+            try {
         codeEditText[0] = findViewById(R.id.code1);
         codeEditText[1] = findViewById(R.id.code2);
         codeEditText[2] = findViewById(R.id.code3);
@@ -54,6 +55,10 @@ public class EmailCodeActivity extends AppCompatActivity {
 
         setupOtpEditTexts();
         startCountdownTimer();
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
 
     private void setupOtpEditTexts() {

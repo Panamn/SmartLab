@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,17 +28,30 @@ import java.util.List;
 public class CategoriesAnalyzesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewAnalyzesAll;
+    private Button searchEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_categories_analyzes);
+            try {
         recyclerViewAnalyzesAll = findViewById(R.id.recyclerViewAnalyzesAll);
         ImageButMenu();
         ImageButClickMenu();
         getCategoriesAllAnalyzes();
-
+        searchEditText = findViewById(R.id.EditTextSearch);
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CategoriesAnalyzesActivity.this,
+                        getString(R.string.text_not_feature),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
     }
     private void getCategoriesAllAnalyzes(){
         SupaBaseClient supaBaseClient = new SupaBaseClient();

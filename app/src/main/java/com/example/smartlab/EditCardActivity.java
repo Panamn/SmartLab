@@ -12,31 +12,22 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
-import com.example.smartlab.Models.Profile;
 import com.example.smartlab.Models.ProfileUpdateCard;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class EditCardActivity extends AppCompatActivity {
-    private EditText firstNameEditText, middleNameEditText, lastNameEditText, birthDateEditText;
+    private EditText firstNameEditText, middleNameEditText, lastNameEditText;
     private Spinner genderSpinner;
     private Calendar birthDateCalendar;
-    private Button saveButton, buttonSkip;
+    private Button saveButton, buttonSkip, birthDateEditText;
     private boolean firstNameValid = false;
     private boolean lastNameValid = false;
     private boolean birthDateValid = false;
@@ -46,6 +37,7 @@ public class EditCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_card);
 
+            try {
         firstNameEditText = findViewById(R.id.firstNameEditText);
         firstNameEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -114,7 +106,12 @@ public class EditCardActivity extends AppCompatActivity {
                         normalizedGender.equals("woman")) {
                     gender = "woman";
                 }
+                SharedPreferences shared= getSharedPreferences("new_user", MODE_PRIVATE);
+                SharedPreferences.Editor edit = shared.edit();
+                edit.putString("entrance", "old_user");
+                edit.apply();
                 savePatientData(fullName, birthDate, gender);
+
             }
         });
         buttonSkip.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +125,9 @@ public class EditCardActivity extends AppCompatActivity {
                 finish();
             }
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
 
     }
     private void updateButtonState() {
@@ -161,6 +161,7 @@ public class EditCardActivity extends AppCompatActivity {
             return false;
         }
         birthDateEditText.setError(null);
+        updateButtonState();
         return true;
     }
 
@@ -182,7 +183,7 @@ public class EditCardActivity extends AppCompatActivity {
     }
     private void updateBirthDateText() {
         String dateFormat = "yyyy-MM-dd";
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, new Locale("ru"));
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, new Locale(getString(R.string.text_ru_en)));
         birthDateEditText.setText(sdf.format(birthDateCalendar.getTime()));
     }
     private void setupGenderSpinner() {
@@ -214,10 +215,7 @@ public class EditCardActivity extends AppCompatActivity {
             public void onResponse(String responseBody) {
                 runOnUiThread(() -> {
                     Log.e("savePatientData:onResponse", responseBody);
-                    SharedPreferences shared= getSharedPreferences("new_user", MODE_PRIVATE);
-                    SharedPreferences.Editor edit = shared.edit();
-                    edit.putString("entrance", "old_user");
-                    edit.apply();
+
                     startActivity(new Intent(EditCardActivity.this, HomeActivity.class));
                     finish();
                 });

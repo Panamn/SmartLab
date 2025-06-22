@@ -16,6 +16,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_success);
 
+            try {
         buttonReceipt = findViewById(R.id.buttonReceipt);
         buttonReceipt.setOnClickListener(v -> {
             Toast.makeText(this, "Открываем чек покупки", Toast.LENGTH_SHORT).show();
@@ -28,5 +29,9 @@ public class PaymentSuccessActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
 }

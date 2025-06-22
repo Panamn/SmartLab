@@ -1,7 +1,6 @@
 package com.example.smartlab;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,15 +10,10 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import com.example.smartlab.Models.AuthResponse;
-import com.example.smartlab.Models.DataBinding;
 import com.example.smartlab.Models.InputEmail;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -32,6 +26,7 @@ public class EmailInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_input);
 
+            try {
         emailEditText = findViewById(R.id.emailEditText);
         sendCodeButton = findViewById(R.id.sendCodeButton);
         imageButtonBack = findViewById(R.id.imageButtonBack);
@@ -53,6 +48,10 @@ public class EmailInputActivity extends AppCompatActivity {
                 sendRecoveryRequest();
             }
         });
+            } catch (Exception e) {
+                ErrorHandler.handleError(this, e);
+            }
+
     }
     private boolean validateEmail() {
         String email = emailEditText.getText().toString().trim();
